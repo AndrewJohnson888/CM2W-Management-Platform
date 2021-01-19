@@ -8,6 +8,7 @@ public class Order {
 	private String location;
 	private int appID;
 	private int orderID;
+	private String status;
 
 	Order(int appID, String drink, ArrayList<String> condiments, String location){
 		
@@ -18,6 +19,7 @@ public class Order {
 		this.drink = drink;
 		this.condiments = condiments;
 		this.location = location;
+		this.status = "processing";
 	}
 	
 	public int getAppID(){
@@ -25,9 +27,29 @@ public class Order {
 		return this.appID;
 	}
 	
+	public String printStatus(){
+		
+		return "Status of order " + String.format("%05d", this.orderID) + ": " + this.status;
+	}
+	
 	public int getOrderID(){
 		
 		return this.orderID;
+	}
+	
+	public void complete(){
+		
+		this.status = "complete";
+	}
+	
+	public String getOrderIDString(){
+		
+		return String.format("%05d", this.orderID);
+	}
+	
+	public boolean checkID(int ID){
+		
+		return this.orderID == ID;
 	}
 	
 	public String getDrink(){

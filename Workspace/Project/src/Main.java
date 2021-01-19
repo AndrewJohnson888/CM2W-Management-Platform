@@ -9,5 +9,6 @@ public class Main {
 		new AdvancedController();
 		
 		new MobileOrderingApp(cps);
+		new MobileOrderingApp(cps);
 	}
 }

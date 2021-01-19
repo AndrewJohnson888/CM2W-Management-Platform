@@ -8,6 +8,7 @@ public class MobileOrderingApp implements AppObserver{
 	private Scanner scanner;
 	private AppSubject subject;
 	private ArrayList<Order> orders;
+	private AppUI appUI;
 
 	public MobileOrderingApp(AppSubject subject){
 		
@@ -20,60 +21,15 @@ public class MobileOrderingApp implements AppObserver{
 		MobileOrderingApp.NEXT_APP_ID ++;
 		
 		this.scanner = new Scanner(System.in);
-	
-		getUserCommand();
+		
+		this.appUI = new AppUI(this);
 	}
 	
-	private void getUserCommand(){
-		
-		while (true){
-		
-			System.out.println("Enter Command: ");
-			System.out.print("->");
-			String command = this.scanner.nextLine();
-			System.out.println();
-			
-			switch(command){
-			
-				case "exit":
-					System.exit(0);
-					break;
-			
-				case "create order":
-					createOrder();
-					break;
-					
-				default:
-					System.out.println("Command not recognized");
-					break;
-			}
-		}
-	}
-	
-	public void createOrder(){
-	
-		ArrayList<String> condiments = new ArrayList<String>();
-		
-		System.out.println("Create an Order");
-		
-		System.out.println("Drink: ");
-		System.out.print("->");
-		String drink = this.scanner.nextLine();
-		
-		System.out.println("Condiments: ");
-		System.out.print("->");
-		String condimentsString = this.scanner.nextLine();
-		for (String c : condimentsString.split(" ")) condiments.add(c);
-		
-		System.out.println("Location: ");
-		System.out.print("->");
-		String location = this.scanner.nextLine();
-		
-		System.out.println("Your order has been placed");
-		System.out.println();
+	public void createOrder(String drink, ArrayList<String> condiments, String location){
 		
 		Order order = new Order(this.appID, drink, condiments, location);
 		this.orders.add(order);
+		this.appUI.printLine(order.printStatus());
 		this.subject.addOrder(order);
 	}
 
@@ -84,9 +40,15 @@ public class MobileOrderingApp implements AppObserver{
 	}
 
 	@Override
-	public void completeOrder(int ID) {
+	public void completeOrder(int orderID) {
 		
-		System.out.println("Order with ID: " + ID + " has completed");
-		System.out.println();
+		for (Order o : this.orders){
+			
+			if (o.checkID(orderID)){
+				
+				o.complete();
+				this.appUI.setLine(o.printStatus(), o.getOrderIDString());
+			}
+		}
 	}
 }
