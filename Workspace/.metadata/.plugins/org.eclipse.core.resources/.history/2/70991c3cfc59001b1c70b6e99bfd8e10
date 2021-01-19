@@ -1,0 +1,12 @@
+
+public class CoffeeAndMachineData {
+
+	public CoffeeAndMachineData(){
+		
+	}
+	
+	public boolean verifyOrder(Order o){
+		
+		
+	}
+}

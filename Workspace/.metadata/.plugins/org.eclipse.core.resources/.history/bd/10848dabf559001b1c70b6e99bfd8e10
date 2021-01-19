@@ -1,0 +1,17 @@
+import java.util.Scanner;
+
+public class MobileOrderingApp implements AppObserver{
+	
+	private Scanner scanner;
+
+	public MobileOrderingApp(){
+		
+	
+	}
+	
+	private void createOrder(){
+		
+		System.out.println("Create an Order");
+		System.out.println("Drink: ");
+	}
+}

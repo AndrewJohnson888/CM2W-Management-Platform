@@ -1,0 +1,13 @@
+import java.util.ArrayList;
+
+public class Instruction {
+	
+	private int appID;
+	private ArrayList<String> recipe;
+	private ArrayList<String> condiments;
+
+	public Instruction(int appID, ArrayList<String> condiments, ArrayList<String> recipe){
+		
+		
+	}
+}

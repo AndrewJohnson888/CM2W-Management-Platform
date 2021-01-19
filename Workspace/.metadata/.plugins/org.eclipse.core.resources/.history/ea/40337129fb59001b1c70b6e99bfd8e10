@@ -1,0 +1,15 @@
+
+public class CoffeeAndMachineData {
+
+	private enum Condiment{
+		
+		CREAM("cream"), 
+		SUGAR("sugar"), 
+		NutraSweet("nutrasweet");  
+	}
+	
+	private CoffeeAndMachineData.Condiment(String name){
+		
+		
+	}
+}

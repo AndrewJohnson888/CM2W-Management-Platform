@@ -1,0 +1,8 @@
+
+public class MobileOrderingApp implements AppObserver{
+
+	public AppObserver(){
+		
+	
+	}
+}

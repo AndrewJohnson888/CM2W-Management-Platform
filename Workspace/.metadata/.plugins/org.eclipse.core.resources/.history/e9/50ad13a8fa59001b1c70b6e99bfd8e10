@@ -1,0 +1,45 @@
+import java.util.ArrayList;
+
+public class CoffeeProductionSubsystem implements AppSubject, ControllerSubject{
+	
+	private static CoffeeProductionSubsystem cps;
+	private ArrayList<AppObserver> appObservers;
+
+	public CoffeeProductionSubsystem(){		
+				
+		CoffeeProductionSubsystem.cps = this;
+		this.appObservers = new ArrayList<AppObserver>();
+	}
+	
+	public static CoffeeProductionSubsystem connect(){
+		
+		return CoffeeProductionSubsystem.cps;
+	}
+	
+	@Override
+	public boolean registerAppObserver(AppObserver a) {
+
+		this.appObservers.add(a);
+		
+		return true;
+	}
+
+	@Override
+	public boolean removeAppObserver(AppObserver a) {
+
+		return false;
+	}
+
+	@Override
+	public boolean notifyAppObserver(int appID) {
+
+		return false;
+	}
+
+	@Override
+	public boolean addOrder(Order o) {
+
+		return false;
+	}
+
+}

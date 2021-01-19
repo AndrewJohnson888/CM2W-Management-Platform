@@ -1,0 +1,14 @@
+
+public enum Condiment {
+
+	CREAM("cream", "Dairy based individual serving"), 
+	SUGAR("sugar", "Case sugar teaspoon"), 
+	NutraSweet("nutrasweet", "Individual serving");  
+	
+	private String name;
+	
+	private Condiment(String name){
+		
+		this.name = name;
+	}
+}

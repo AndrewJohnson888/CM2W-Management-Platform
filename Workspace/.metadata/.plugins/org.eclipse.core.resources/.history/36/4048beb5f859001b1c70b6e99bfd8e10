@@ -1,0 +1,25 @@
+
+public class MobileOrderingApp implements AppObserver{
+	
+	private static int NEXT_APP_ID = 0;
+	private int appID;
+
+	public MobileOrderingApp(){
+		
+		this.appID = MobileOrderingApp.NEXT_APP_ID;
+		MobileOrderingApp.NEXT_APP_ID ++;
+	
+		getUserCommand();
+	}
+	
+	private getUserCommand(){
+		
+		
+	}
+	
+	public void createOrder(){
+		
+		Order order = new Order(this.appID);
+		
+	}
+}

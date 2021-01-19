@@ -1,0 +1,30 @@
+import java.util.concurrent.TimeUnit;
+
+public class CoffeeProductionSubsystem implements AppSubject, ControllerSubject{
+
+	public CoffeeProductionSubsystem(){
+		
+		System.out.println("Loading Coffee Production Subsystem");
+		
+				
+	}
+	
+	@Override
+	public boolean registerAppObserver(AppObserver a) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean removeAppObserver(AppObserver a) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean notifyAppObserver(int appID) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+}

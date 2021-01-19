@@ -1,0 +1,8 @@
+
+public class SimpleController extends Controller{
+
+	public SimpleController(){
+		
+		
+	}
+}

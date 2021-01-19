@@ -1,0 +1,6 @@
+
+public interface ControllerSubject {
+
+	public boolean registerControllerObserver(AppObserver a);
+	public static ControllerSubject connect() {return null;};
+}

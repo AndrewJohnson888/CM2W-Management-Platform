@@ -1,0 +1,36 @@
+import java.util.Scanner;
+
+public class MobileOrderingApp implements AppObserver{
+	
+	private static int NEXT_APP_ID = 0;
+	private int appID;
+	private Scanner scanner;
+
+	public MobileOrderingApp(){
+		
+		this.appID = MobileOrderingApp.NEXT_APP_ID;
+		MobileOrderingApp.NEXT_APP_ID ++;
+		
+		this.scanner = new Scanner(System.in);
+	
+		getUserCommand();
+	}
+	
+	private void getUserCommand(){
+		
+		System.out.println("Enter Command: ");
+		String command = this.scanner.next();
+		
+		switch(command){
+		
+			case "create order":
+				createOrder();
+				break;
+		}
+	}
+	
+	public void createOrder(){
+		
+		Order order = new Order(this.appID);
+	}
+}

@@ -1,0 +1,49 @@
+import java.util.Scanner;
+
+public class MobileOrderingApp implements AppObserver{
+	
+	private static int NEXT_APP_ID = 0;
+	private int appID;
+	private Scanner scanner;
+	private CoffeeProductionSubsystem cps;
+
+	public MobileOrderingApp(){
+		
+		this.cps = CoffeeProductionSubsystem.connect();
+		this.cps.registerAppObserver(this);
+		
+		this.appID = MobileOrderingApp.NEXT_APP_ID;
+		MobileOrderingApp.NEXT_APP_ID ++;
+		
+		this.scanner = new Scanner(System.in);
+	
+		getUserCommand();
+	}
+	
+	private void getUserCommand(){
+		
+		System.out.println("Enter Command: ");
+		System.out.print("->");
+		String command = this.scanner.nextLine();
+		System.out.println();
+		
+		switch(command){
+		
+			case "create order":
+				createOrder();
+				break;
+		}
+	}
+	
+	public void createOrder(){
+		
+		Order order = new Order(this.appID);
+		this.cps.sendOrder(order);
+	}
+
+	@Override
+	public boolean checkID(int ID) {
+		
+		return ID == this.appID;
+	}
+}

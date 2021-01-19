@@ -1,0 +1,40 @@
+import java.util.ArrayList;
+
+public class Instruction {
+	
+	private int appID;
+	private ArrayList<String> recipe;
+	private ArrayList<String> condiments;
+
+	public Instruction(int appID, ArrayList<String> condiments, ArrayList<String> recipe){
+		
+		this.appID = appID;
+		this.condiments = condiments;
+		this.recipe = recipe;
+	}
+	
+	public int getAppID(){
+		
+		return this.appID;
+	}
+	
+	public String getCondimentAtIndex(int index){
+		
+		return this.condiments.get(index);
+	}
+	
+	public int getNumberOfCondiments(){
+		
+		return this.condiments.size();
+	}
+	
+	public String getRecipeAtIndex(int index){
+		
+		return this.recipe.get(index);
+	}
+	
+	public int getNumberOfRecipeSteps(){
+		
+		return this.recipe.size();
+	}
+}
