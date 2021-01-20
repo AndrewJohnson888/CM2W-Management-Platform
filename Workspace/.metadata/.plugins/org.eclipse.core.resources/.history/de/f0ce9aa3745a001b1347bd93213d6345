@@ -1,9 +1,0 @@
-import javax.swing.JFrame;
-
-public class AppUI extends JFrame{
-
-	public AppUI(){
-		
-		
-	}
-}

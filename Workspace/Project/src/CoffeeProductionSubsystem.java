@@ -1,11 +1,11 @@
-import java.sql.Time;
 import java.util.ArrayList;
-import java.util.concurrent.TimeUnit;
+import java.util.HashMap;
 
 public class CoffeeProductionSubsystem implements AppSubject, ControllerSubject{
 	
+	private static int NEXT_APP_ID = 0;
 	private static CoffeeProductionSubsystem cps;
-	private ArrayList<AppObserver> appObservers;
+	private HashMap<Integer, AppObserver> appObservers;
 	private ArrayList<ControllerObserver> controllerObservers;
 	private CoffeeAndMachineData data;
 
@@ -13,9 +13,9 @@ public class CoffeeProductionSubsystem implements AppSubject, ControllerSubject{
 				
 		CoffeeProductionSubsystem.cps = this;
 		
-		this.appObservers = new ArrayList<AppObserver>();
+		this.appObservers = new HashMap<Integer, AppObserver>();
 		this.controllerObservers = new ArrayList<ControllerObserver>();
-		this.data = new CoffeeAndMachineData();
+		this.data = new CoffeeAndMachineData(this);
 	}
 	
 	public static AppSubject connect(){
@@ -25,8 +25,14 @@ public class CoffeeProductionSubsystem implements AppSubject, ControllerSubject{
 	
 	@Override
 	public boolean registerAppObserver(AppObserver a) {
+		
+		a.registerApp(NEXT_APP_ID,
+					  this.data.getDrinksArray(), 
+					  this.data.getLocationsArray(), 
+					  this.data.getCondimentsArray());
 
-		this.appObservers.add(a);
+		this.appObservers.put(NEXT_APP_ID, a);
+		NEXT_APP_ID ++;
 		
 		return true;
 	}
@@ -77,7 +83,7 @@ public class CoffeeProductionSubsystem implements AppSubject, ControllerSubject{
 		
 		if (! this.data.containsDrink(o.getDrink())) return false;
 		if (! this.data.containsLocation(o.getLocation())) return false;
-		
+
 		for (String condiment : o.getCondiments()){
 			
 			if (! this.data.containsCondiment(condiment)) return false;
@@ -89,12 +95,10 @@ public class CoffeeProductionSubsystem implements AppSubject, ControllerSubject{
 	@Override
 	public boolean completeOrder(int appID, int orderID) {
 		
-		for (AppObserver a : this.appObservers){
+		if (this.appObservers.containsKey(appID)){
 			
-			if (a.checkID(appID)){
-				
-				a.completeOrder(orderID);
-			}
+			this.appObservers.get(appID).completeOrder(orderID);
+			return true;
 		}
 		
 		return false;

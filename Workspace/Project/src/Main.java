@@ -5,9 +5,6 @@ public class Main {
 		
 		CoffeeProductionSubsystem cps = new CoffeeProductionSubsystem();
 		
-		new SimpleController(cps);
-		new AdvancedController();
-		
 		new MobileOrderingApp(cps);
 		new MobileOrderingApp(cps);
 	}

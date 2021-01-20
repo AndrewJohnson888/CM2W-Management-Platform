@@ -6,19 +6,17 @@ import java.util.concurrent.ArrayBlockingQueue;
 public class SimpleController extends Controller{
 
 	private static final int QUEUE_SIZE = 10;
-	private static int NEXT_ID = 0;
 	private int id;
 	private Queue<Instruction> instructionQueue;
 	private Timer timer;
 	private ControllerSubject subject;
 	
-	public SimpleController(ControllerSubject subject){
+	public SimpleController(ControllerSubject subject, int controllerID){
 		
 		this.subject = subject;
 		this.subject.registerControllerObserver(this);
 		
-		this.id = SimpleController.NEXT_ID;
-		SimpleController.NEXT_ID ++;
+		this.id = controllerID;
 		
 		this.instructionQueue = new ArrayBlockingQueue<Instruction>(QUEUE_SIZE);
 		
@@ -39,7 +37,6 @@ public class SimpleController extends Controller{
 		
 		Instruction i = this.instructionQueue.poll();
 
-		
 		this.subject.completeOrder(i.getAppID(), i.getOrderID());
 	}
 

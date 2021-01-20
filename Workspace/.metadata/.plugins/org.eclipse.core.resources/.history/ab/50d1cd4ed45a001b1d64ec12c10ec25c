@@ -1,0 +1,6 @@
+
+public interface AppObserver {
+
+	public void completeOrder(int ID);
+	public void setOptions(String[] drinks, String[] locations, String[] condiments);
+}

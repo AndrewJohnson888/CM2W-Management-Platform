@@ -1,74 +1,186 @@
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Scanner;
 
 public class CoffeeAndMachineData {
 	
-	private ArrayList<String> condiments;
-	private ArrayList<String> drinks;
-	private ArrayList<String> locations;
-	private HashMap<String, Integer> controllers;
-	private HashMap<String, ArrayList<String>> reicpes;
+	private final String databaseString = "src/Database/";
+	private final String capabilityFile = "Capability";
+	private final String coffeeMakerFile = "CoffeeMaker";
+	private final String coffeeMakerCapabilityFile = "CoffeeMakerCapability";
+	private final String coffeeMakerDrinkFile = "CoffeeMakerDrink";
+	private final String condimentFile = "Condiment";
+	private final String controllerFile = "Controller";
+	private final String drinkIngredientFile = "DrinkIngredient";
+	private final String drinkTypesFile = "DrinkTypes";
+	private final String ingredientFile = "Ingredient";
 
-	public CoffeeAndMachineData(){
+	public CoffeeAndMachineData(CoffeeProductionSubsystem cps){
 		
-		this.condiments = new ArrayList<String>();
-		this.drinks = new ArrayList<String>();
-		this.locations = new ArrayList<String>();
-		this.controllers = new HashMap<String, Integer>();
-		this.reicpes = new HashMap<String, ArrayList<String>>();	
+		HashMap<String, ArrayList<String>> controllerTable = this.getControllerTable();
 		
-		this.condiments.add("cream");
-		this.condiments.add("sugar");
-		this.condiments.add("nutrasweet");
+		for (String k : controllerTable.keySet()){
+			
+			switch (controllerTable.get(k).get(0)){
+			
+				case "Simple":
+					new SimpleController(cps, Integer.parseInt(k));
+					break;
+//				case "Advanced": 
+//					new AdvancedController(cps, Integer.parseInt(k));
+//					break;
+			}
+		}
+	}
+	
+	private HashMap<String, ArrayList<String>> getCapabilityTable(){
 		
-		this.drinks.add("americano");
-		this.drinks.add("latte");
-		this.drinks.add("pumpkin spice");
+		return this.readTable(this.capabilityFile);
+	}
+	
+	private HashMap<String, ArrayList<String>> getCoffeeMakerTable(){
 		
-		this.locations.add("200 N Main");
-		this.locations.add("3 S Walnut");
+		return this.readTable(this.coffeeMakerFile);
+	}
+	
+	private HashMap<String, ArrayList<String>> getCoffeeMakerCapabilityTable(){
 		
-		this.controllers.put("200 N Main", 0);
-		this.controllers.put("3 S Walnut", 1);
+		return this.readTable(this.coffeeMakerCapabilityFile);
+	}
+	
+	private HashMap<String, ArrayList<String>> getCoffeeMakerDrinkTable(){
 		
-		this.reicpes.put("americano", new ArrayList<String>());
-		this.reicpes.get("americano").add("coffee");
+		return this.readTable(this.coffeeMakerDrinkFile);
+	}
+	
+	private HashMap<String, ArrayList<String>> getCondimentTable(){
 		
-		this.reicpes.put("latte", new ArrayList<String>());
-		this.reicpes.get("latte").add("coffee");
-		this.reicpes.get("latte").add("milk");
-		this.reicpes.get("latte").add("whipped cream");
-		this.reicpes.get("latte").add("sugar");
+		return this.readTable(this.condimentFile);
+	}
+	
+	private HashMap<String, ArrayList<String>> getControllerTable(){
 		
-		this.reicpes.put("pumpkin spice", new ArrayList<String>());
-		this.reicpes.get("pumpkin spice").add("coffee");
-		this.reicpes.get("pumpkin spice").add("sugar");
-		this.reicpes.get("pumpkin spice").add("pumpkin spice");
+		return this.readTable(this.controllerFile);
+	}
+	
+	private ArrayList<String> getLocations(){
 		
+		ArrayList<String> locations = new ArrayList<String>();
+		
+		for (ArrayList<String> a : this.getControllerTable().values()){
+			
+			locations.add(a.get(1));
+		}
+		
+		return locations;
+	}
+	
+	private HashMap<String, ArrayList<String>> getDrinkIngredientTable(){
+		
+		return this.readTable(this.drinkIngredientFile);
+	}
+	
+	private HashMap<String, ArrayList<String>> getDrinkTypesTable(){
+		
+		return this.readTable(this.drinkTypesFile);
+	}
+	
+	private HashMap<String, ArrayList<String>> getIngredientTable(){
+		
+		return this.readTable(this.ingredientFile);
+	}
+	
+	private HashMap<String, ArrayList<String>> readTable(String filename){
+		
+		try {
+			
+			HashMap<String, ArrayList<String>> table = new HashMap<String, ArrayList<String>>();
+			
+			Scanner scanner = new Scanner(new File(this.databaseString + filename));
+
+			String name;
+			String description;
+			
+			while (scanner.hasNext()){
+				
+				name = scanner.nextLine();
+
+				description = scanner.nextLine();
+				ArrayList<String> fields = new ArrayList<String>();
+				while(!description.trim().isEmpty()){
+					
+					fields.add(description);
+					
+					if (!scanner.hasNext()) break;
+					
+					description = scanner.nextLine();
+				}
+				
+				table.put(name, fields);
+			}
+			
+			scanner.close();
+			
+			return table;
+		} 
+		
+		catch (FileNotFoundException e) {
+			
+			System.out.println("ERROR: " + filename + " Table was not found.");
+		}
+		
+		return null;
+	}
+	
+	public String[] getDrinksArray(){
+		
+		return this.getDrinkTypesTable().keySet().toArray(new String[0]);
+	}
+	
+	public String[] getLocationsArray(){
+		
+		return this.getLocations().toArray(new String[0]);
+	}
+	
+	public String[] getCondimentsArray(){
+		
+		return (String[]) this.getCondimentTable().keySet().toArray(new String[0]);
 	}
 	
 	public boolean containsCondiment(String condiment){
 		
-		return this.condiments.contains(condiment);
+		return this.getCondimentTable().containsKey(condiment);
 	}
 	
 	public boolean containsDrink(String drink){
 		
-		return this.drinks.contains(drink);
-	}
-	
-	public ArrayList<String> getRecipe(String drink){
-		
-		return this.reicpes.get(drink);
+		return this.getDrinkTypesTable().containsKey(drink);
 	}
 	
 	public boolean containsLocation(String location){
 		
-		return this.locations.contains(location);
+		return this.getLocations().contains(location);
 	}
 	
 	public int getControllerIDAtLocation(String location){
 		
-		return this.controllers.get(location);
+		HashMap<String, ArrayList<String>> controllerTable = this.getControllerTable();
+		
+		for (String k : controllerTable.keySet()){
+			
+			if (controllerTable.get(k).get(1).equals(location)){
+				
+				return Integer.parseInt(k);
+			}
+		}
+		
+		return -1;
+	}
+	
+	public ArrayList<String> getRecipe(String drink){
+		
+		return this.getDrinkIngredientTable().get(drink);
 	}
 }

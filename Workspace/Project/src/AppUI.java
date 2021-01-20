@@ -17,6 +17,9 @@ import javax.swing.JScrollPane;
 public class AppUI extends JFrame{
 	
 	private JPanel orderStatusPanel;
+	private JComboBox<String> drinkSelection;
+	private JPanel condimentsPanel;
+	private JComboBox<String> locationSelection;
 
 	public AppUI(MobileOrderingApp app){
 		
@@ -26,25 +29,19 @@ public class AppUI extends JFrame{
 		
 		
 		//drinks section
-		String[] drinks = {"latte", "americano"};
-		JComboBox<String> drinkSelection = new JComboBox<String>(drinks);
+		this.drinkSelection = new JComboBox<String>();
 		drinkSelection.setMaximumSize(drinkSelection.getPreferredSize());
 		JPanel drinkPanel = new JPanel();
 		drinkPanel.add(drinkSelection);
 		
 		
 		//condiments section
-		JCheckBox sugar = new JCheckBox("sugar");
-		JCheckBox cream = new JCheckBox("cream");
-		JPanel condimentsPanel = new JPanel();
-		condimentsPanel.setLayout(new BoxLayout(condimentsPanel, BoxLayout.Y_AXIS));
-		condimentsPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
-		condimentsPanel.add(sugar);
-		condimentsPanel.add(cream);
+		this.condimentsPanel = new JPanel();
+		this.condimentsPanel.setLayout(new BoxLayout(condimentsPanel, BoxLayout.Y_AXIS));
+		this.condimentsPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
 		
 		//locations section
-		String[] locations  = {"200 N Main", "2"};
-		JComboBox<String> locationSelection = new JComboBox<String>(locations);
+		this.locationSelection = new JComboBox<String>();
 		locationSelection.setMaximumSize(locationSelection.getPreferredSize());
 		JPanel locationPanel = new JPanel();
 		locationPanel.add(locationSelection);
@@ -90,6 +87,29 @@ public class AppUI extends JFrame{
 		this.add(orderStatusPane, BorderLayout.CENTER);
 		
 		this.setVisible(true);
+	}
+	
+	public void setOptions(String[] drinks, String[] locations, String[] condiments){
+		
+		this.drinkSelection.removeAllItems();
+		for (String d : drinks){
+		
+			this.drinkSelection.addItem(d);
+		}
+		
+		this.condimentsPanel.removeAll();
+		for (String c : condiments){
+			
+			this.condimentsPanel.add(new JCheckBox(c));
+		}
+		
+		this.locationSelection.removeAllItems();
+		for (String l : locations){
+			
+			this.locationSelection.addItem(l);
+		}
+		
+		this.revalidate();
 	}
 	
 	public void printLine(String line){
