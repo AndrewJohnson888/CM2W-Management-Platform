@@ -1,0 +1,20 @@
+package Domain;
+
+import DataSource.Instruction;
+
+public class ProduceCoffeeOnlyBehavior implements MachineCapabilityBehavior{
+	
+	private boolean isResponding;
+	
+	public ProduceCoffeeOnlyBehavior(isResponding){
+		
+		this.isResponding = isResponding;
+	}
+
+	@Override
+	public void makeCoffee(Instruction i) {
+		// TODO Auto-generated method stub
+		
+	}
+
+}

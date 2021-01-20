@@ -1,0 +1,8 @@
+package Domain;
+
+import DataSource.Instruction;
+
+public interface MachineCapabilityBehavior {
+
+	public void makeCoffee(Instruction i);
+}
