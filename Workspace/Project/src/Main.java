@@ -5,7 +5,6 @@ public class Main {
 		
 		CoffeeProductionSubsystem cps = new CoffeeProductionSubsystem();
 		
-		new MobileOrderingApp(cps);
-		new MobileOrderingApp(cps);
+		for (int i = 0; i < 2; i++) new MobileOrderingApp(cps);
 	}
 }

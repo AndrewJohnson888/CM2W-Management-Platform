@@ -1,0 +1,7 @@
+
+public interface ControllerObserver {
+
+	public boolean registerID(int ID);
+	public boolean checkAvailability();
+	public void addInstruction(Instruction i);
+}

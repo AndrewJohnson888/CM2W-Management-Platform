@@ -1,0 +1,10 @@
+
+public class ProduceCoffeeOnlyBehavior implements MachineCapabilityBehavior{
+
+	@Override
+	public void makeCoffee() {
+		// TODO Auto-generated method stub
+		
+	}
+
+}
