@@ -1,0 +1,76 @@
+package Domain;
+import java.util.Queue;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.concurrent.ArrayBlockingQueue;
+
+import DataSource.Instruction;
+import DataSource.Order;
+
+public abstract class Controller implements ControllerObserver{
+
+	private static final int QUEUE_SIZE = 10;
+	private static final int MAKE_COFFEE_TIME = 1; //in seconds
+	private int id;
+	private Queue<Order> orderQueue;
+	private Timer timer;
+	private ControllerSubject subject;
+	private boolean available;
+	
+	protected MachineCapabilityBehavior behavior;
+	
+	public Controller(ControllerSubject subject, int controllerID, boolean available){
+		
+		this.id = controllerID;
+		
+		this.available = available;
+		
+		this.orderQueue = new ArrayBlockingQueue<Order>(QUEUE_SIZE);
+		
+		this.timer = new Timer();
+		this.timer.schedule(new TimerTask() {
+			
+			@Override
+			public void run(){
+				
+				if (Controller.this.orderQueue.isEmpty()) return;
+				
+				Order o = Controller.this.orderQueue.poll();
+				
+				boolean responded = Controller.this.behavior.makeCoffee(i);
+				
+				if (! responded){
+					
+					
+					Controller.this.subject.updateOrder(i.getAppID(), i.getOrderID(), "Controller is not responding");
+					return;
+				}
+				
+				System.out.println("coffee order has been made");
+
+				Controller.this.subject.updateOrder(i.getAppID(), i.getOrderID(), "");
+			}
+		}, 0, MAKE_COFFEE_TIME * 1000);
+		
+		this.subject = subject;
+		this.subject.registerControllerObserver(this);
+	}
+
+	@Override
+	public int registerID() {
+
+		return this.id;
+	}
+
+	@Override
+	public boolean checkAvailability() {
+		
+		return this.available && ! (this.orderQueue.size() == QUEUE_SIZE);
+	}
+
+	@Override
+	public void addOrder(Order o) {
+		
+		this.orderQueue.add(o);
+	}
+}

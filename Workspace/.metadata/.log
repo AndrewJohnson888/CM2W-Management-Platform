@@ -319,3 +319,9 @@ Java Model Exception: Java Model Status [Controller(ControllerSubject, int, bool
 	at org.eclipse.jface.text.TextViewerHoverManager$4.run(TextViewerHoverManager.java:165)
 !SUBENTRY 1 org.eclipse.jdt.core 4 969 2021-01-20 13:04:19.085
 !MESSAGE Controller(ControllerSubject, int, boolean) [in Controller [in [Working copy] Controller.java [in Domain [in src [in Project]]]]] does not exist
+
+!ENTRY org.eclipse.jface.text 2 0 2021-01-20 17:42:24.874
+!MESSAGE Duplicate template id: 'org.eclipse.wst.xslt.templates.xpath.number'
+
+!ENTRY org.eclipse.jface.text 2 0 2021-01-20 17:42:24.875
+!MESSAGE Duplicate template id: 'org.eclipse.wst.xslt.templates.xpath.round'

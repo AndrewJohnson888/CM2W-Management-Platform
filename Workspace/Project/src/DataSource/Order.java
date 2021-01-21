@@ -1,4 +1,4 @@
-package DataSource;
+	package DataSource;
 import java.util.ArrayList;
 
 public class Order {
@@ -6,14 +6,15 @@ public class Order {
 	private static int NEXT_ORDER_ID = 0;
 	private String drink;
 	private ArrayList<String> condiments;
+	private ArrayList<String> recipe;
 	private String location;
 	private int appID;
-	private int orderID;
+	private int id;
 	private String status;
 
 	public Order(int appID, String drink, ArrayList<String> condiments, String location){
 		
-		this.orderID = Order.NEXT_ORDER_ID;
+		this.id = Order.NEXT_ORDER_ID;
 		Order.NEXT_ORDER_ID ++;
 		
 		this.appID = appID;
@@ -23,41 +24,39 @@ public class Order {
 		this.status = "processing";
 	}
 	
+	public void setStatusMessage(String statusMessage){
+		
+		this.status = statusMessage;
+	}
+	
 	public int getAppID(){
 		
 		return this.appID;
 	}
 	
-	public String printStatus(){
+	public String print(){
 		
-		return "Status of order " + String.format("%05d", this.orderID) + ": " + this.status;
-	}
-	
-	public String printError(String errorMessage){
+		String orderString = "";
+		orderString += "Order " + String.format("%03d", this.id) + " status: " + this.status + "\n";
+		orderString += "\t Drink: " + this.drink + "\n";
+		orderString += "\t Condiments: ";
+		for (String s : this.condiments) orderString += s + ", ";
+		orderString += "\n";
+		orderString += "\t location: " + this.location + "\n";
+		orderString += "\n";
 		
-		return "Error for Order " + String.format("%05d", this.orderID) + ": " + errorMessage;
-	}
-	
-	public int getOrderID(){
-		
-		return this.orderID;
-	}
-	
-	public void complete(){
-		
-		this.status = "complete";
+		return orderString;
 	}
 	
 	public String getOrderIDString(){
 		
-		return String.format("%05d", this.orderID);
+		return String.format("%03d", this.id);
 	}
 	
-	public boolean checkID(int ID){
+	public int getOrderIDInteger(){
 		
-		return this.orderID == ID;
+		return this.id;
 	}
-	
 	public String getDrink(){
 		
 		return this.drink;
@@ -71,5 +70,15 @@ public class Order {
 	public String getLocation(){
 		
 		return this.location;
+	}
+	
+	public void addRecipe(ArrayList<String> recipe){
+		
+		this.recipe = recipe;
+	}
+	
+	public ArrayList<String> getRecipe(){
+		
+		return this.recipe;
 	}
 }

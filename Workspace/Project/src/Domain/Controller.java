@@ -3,18 +3,18 @@ import java.util.Queue;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.ArrayBlockingQueue;
-
-import DataSource.Instruction;
+import DataSource.Order;
+import Presentation.Main;
 
 public abstract class Controller implements ControllerObserver{
 
 	private static final int QUEUE_SIZE = 10;
-	private static final int MAKE_COFFEE_TIME = 1; //in seconds
+	private static final int MAKE_COFFEE_TIME = 5; //in seconds
 	private int id;
-	private Queue<Instruction> instructionQueue;
-	private Timer timer;
+	private Queue<Order> orderQueue;
+	private Timer timer; //simulates length of time it takes to make coffee or process an order
 	private ControllerSubject subject;
-	private boolean available;
+	private boolean available; //simulates whether or not this controller is available
 	
 	protected MachineCapabilityBehavior behavior;
 	
@@ -24,7 +24,7 @@ public abstract class Controller implements ControllerObserver{
 		
 		this.available = available;
 		
-		this.instructionQueue = new ArrayBlockingQueue<Instruction>(QUEUE_SIZE);
+		this.orderQueue = new ArrayBlockingQueue<Order>(QUEUE_SIZE);
 		
 		this.timer = new Timer();
 		this.timer.schedule(new TimerTask() {
@@ -32,21 +32,23 @@ public abstract class Controller implements ControllerObserver{
 			@Override
 			public void run(){
 				
-				if (Controller.this.instructionQueue.isEmpty()) return;
+				if (Controller.this.orderQueue.isEmpty()) return;
 				
-				Instruction i = Controller.this.instructionQueue.poll();
+				Order o = Controller.this.orderQueue.poll();
 				
-				boolean responded = Controller.this.behavior.makeCoffee(i);
+				boolean responded = Controller.this.behavior.makeCoffee(o);
 				
 				if (! responded){
 					
-					Controller.this.subject.completeOrder(i.getAppID(), i.getOrderID(), "Controller is not responding");
+					Main.simulateDelay();
+					System.out.println("The Controller is not responding");
+					
+					o.setStatusMessage("Controller is not responding");
+					Controller.this.subject.updateOrder(o.getAppID(), o.getOrderIDInteger());
 					return;
 				}
-				
-				System.out.println("coffee order has been made");
 
-				Controller.this.subject.completeOrder(i.getAppID(), i.getOrderID(), "");
+				Controller.this.subject.updateOrder(o.getAppID(), o.getOrderIDInteger());
 			}
 		}, 0, MAKE_COFFEE_TIME * 1000);
 		
@@ -63,12 +65,12 @@ public abstract class Controller implements ControllerObserver{
 	@Override
 	public boolean checkAvailability() {
 		
-		return this.available && ! (this.instructionQueue.size() == QUEUE_SIZE);
+		return this.available && ! (this.orderQueue.size() == QUEUE_SIZE);
 	}
 
 	@Override
-	public void addInstruction(Instruction i) {
+	public void addOrder(Order o) {
 		
-		this.instructionQueue.add(i);
+		this.orderQueue.add(o);
 	}
 }

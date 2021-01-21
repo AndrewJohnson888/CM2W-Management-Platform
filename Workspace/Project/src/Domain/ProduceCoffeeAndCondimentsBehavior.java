@@ -1,10 +1,10 @@
 package Domain;
 
-import DataSource.Instruction;
+import DataSource.Order;
 
 public class ProduceCoffeeAndCondimentsBehavior implements MachineCapabilityBehavior{
 
-	private boolean isResponding;
+	private boolean isResponding; 
 	
 	public ProduceCoffeeAndCondimentsBehavior(boolean isResponding){
 		
@@ -12,7 +12,7 @@ public class ProduceCoffeeAndCondimentsBehavior implements MachineCapabilityBeha
 	}
 	
 	@Override
-	public boolean makeCoffee(Instruction i) {
+	public boolean makeCoffee(Order o) {
 		
 		if (! this.isResponding) return false;
 		

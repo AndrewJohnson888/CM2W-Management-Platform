@@ -1,10 +1,10 @@
 package Domain;
 
-import DataSource.Instruction;
+import DataSource.Order;
 
 public interface ControllerObserver {
 
 	public int registerID();
 	public boolean checkAvailability();
-	public void addInstruction(Instruction i);
+	public void addOrder(Order o);
 }

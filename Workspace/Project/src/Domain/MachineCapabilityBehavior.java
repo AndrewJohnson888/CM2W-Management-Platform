@@ -1,8 +1,8 @@
 package Domain;
 
-import DataSource.Instruction;
+import DataSource.Order;
 
 public interface MachineCapabilityBehavior {
 
-	public boolean makeCoffee(Instruction i);
+	public boolean makeCoffee(Order o);
 }

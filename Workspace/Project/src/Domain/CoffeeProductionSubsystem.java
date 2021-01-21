@@ -1,32 +1,23 @@
 package Domain;
 import java.util.ArrayList;
 import java.util.HashMap;
-
 import DataSource.CoffeeAndMachineData;
-import DataSource.Instruction;
 import DataSource.Order;
 import Presentation.AppObserver;
+import Presentation.Main;
 
 public class CoffeeProductionSubsystem implements AppSubject, ControllerSubject{
 	
 	private static int NEXT_APP_ID = 0;
-	private static CoffeeProductionSubsystem cps;
 	private HashMap<Integer, AppObserver> appObservers;
 	private HashMap<Integer, ControllerObserver> controllerObservers;
 	private CoffeeAndMachineData data;
 
 	public CoffeeProductionSubsystem(){		
-				
-		CoffeeProductionSubsystem.cps = this;
 		
 		this.appObservers = new HashMap<Integer, AppObserver>();
 		this.controllerObservers = new HashMap<Integer, ControllerObserver>();
 		this.data = new CoffeeAndMachineData(this);
-	}
-	
-	public static AppSubject connect(){
-		
-		return CoffeeProductionSubsystem.cps;
 	}
 	
 	@Override
@@ -54,51 +45,86 @@ public class CoffeeProductionSubsystem implements AppSubject, ControllerSubject{
 	@Override
 	public boolean removeAppObserver(AppObserver a) {
 		
+		for (int k : this.appObservers.keySet()){
+			
+			if (this.appObservers.get(k).equals(a)){
+				
+				this.appObservers.remove(k);
+			}
+		}
+		
 		return true;
 	}
 	
 	@Override
-	public boolean removControllerObserver(ControllerObserver c) {
+	public boolean removeControllerObserver(ControllerObserver c) {
 
+		this.controllerObservers.remove(c.registerID());
+		
 		return true;
 	}
 
 	@Override
-	public boolean notifyAppObserver(int appID) {
-
-		return false;
-	}
-
-	@Override
-	public String addOrder(Order o) {
+	public void addOrder(Order o) {
 		
-		if (! this.verifyOrder(o)) return "Invalid Order";
+		Main.simulateDelay();
+		
+		if (! this.verifyOrder(o)) {
+			
+			o.setStatusMessage("Invalid Order");
+			this.updateOrder(o.getAppID(), o.getOrderIDInteger());
+			return;
+		}
+		
+		Main.simulateDelay();
 		System.out.println("Verified order");
 		
 		int controllerID = this.data.getControllerIDAtLocation(o.getLocation());
+		
 		if (this.controllerObservers.containsKey(controllerID)){
 			
+			Main.simulateDelay();
 			System.out.println("found controller");
 			
 			ControllerObserver c = this.controllerObservers.get(controllerID);
 			
 			if (c.checkAvailability()){
 				
+				Main.simulateDelay();
 				System.out.println("found controller is available");
 				
 				ArrayList<String> recipe = this.data.getRecipe(o.getDrink());
-				Instruction i = new Instruction(o.getAppID(), o.getOrderID(), o.getCondiments(), recipe);
-				c.addInstruction(i);
 				
+				if (recipe == null){
+					
+					Main.simulateDelay();
+					o.setStatusMessage("No Recipe Found");
+					System.out.println("Ordered drink has no recipe");
+					this.updateOrder(o.getAppID(), o.getOrderIDInteger());
+					return;
+				}
+				
+				o.addRecipe(recipe);
+				c.addOrder(o);
+				
+				Main.simulateDelay();
 				System.out.println("order has been added to controller job queue");
-				
-				return "";
+				return;
 			}
 				
-			return "Controller not Available";
+			Main.simulateDelay();
+			System.out.println("Controller is not available");
+			
+			o.setStatusMessage("Controller not Available");
+			this.updateOrder(o.getAppID(), o.getOrderIDInteger());
+			return;
 		}
+		
+		Main.simulateDelay();
+		System.out.println("There is no controller at the specified location");
 
-		return "No controller at specified location";
+		o.setStatusMessage("No controller at specified location");
+		this.updateOrder(o.getAppID(), o.getOrderIDInteger());
 	}
 	
 	private boolean verifyOrder(Order o){
@@ -115,11 +141,11 @@ public class CoffeeProductionSubsystem implements AppSubject, ControllerSubject{
 	}
 
 	@Override
-	public boolean completeOrder(int appID, int orderID, String errorMessage) {
+	public boolean updateOrder(int appID, int orderID) {
 		
 		if (this.appObservers.containsKey(appID)){
 			
-			this.appObservers.get(appID).completeOrder(orderID, errorMessage);
+			this.appObservers.get(appID).updateOrder(orderID);
 			return true;
 		}
 		

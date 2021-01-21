@@ -6,6 +6,6 @@ public interface AppSubject {
 
 	public boolean registerAppObserver(AppObserver a);
 	public boolean removeAppObserver(AppObserver a);
-	public boolean notifyAppObserver(int appID);
-	public String addOrder(Order o);
+	public boolean updateOrder(int appID, int orderID);
+	public void addOrder(Order o);
 }

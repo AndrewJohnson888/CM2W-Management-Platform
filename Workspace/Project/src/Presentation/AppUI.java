@@ -115,7 +115,11 @@ public class AppUI extends JFrame{
 	
 	public void printLine(String line){
 		
-		this.orderStatusPanel.add(new JLabel(line));
+		JLabel label = new JLabel();
+		label.setText("<html>" + line.replaceAll("\n", "<br/>").replaceAll("\t", "&nbsp;&nbsp;&nbsp;") + "</html>");
+		
+		this.orderStatusPanel.add(label);
+		
 		this.revalidate();
 	}
 	
@@ -127,7 +131,7 @@ public class AppUI extends JFrame{
 			
 			if (label.getText().contains(pattern)){
 				
-				label.setText(line);
+				label.setText("<html>" + line.replaceAll("\n", "<br/>").replaceAll("\t", "&nbsp;&nbsp;&nbsp;") + "</html>");
 			}
 		}
 		

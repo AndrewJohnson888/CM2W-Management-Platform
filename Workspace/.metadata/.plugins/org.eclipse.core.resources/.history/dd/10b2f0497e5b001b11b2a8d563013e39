@@ -1,0 +1,30 @@
+package Domain;
+
+import DataSource.Order;
+
+public class ProduceCoffeeOnlyBehavior implements MachineCapabilityBehavior{
+	
+	private boolean isResponding;
+	
+	public ProduceCoffeeOnlyBehavior(boolean isResponding){
+		
+		this.isResponding = isResponding;
+	}
+
+	@Override
+	public boolean makeCoffee(Order o) {
+		
+		if (! this.isResponding) return false;
+		
+		System.out.println("Beginning to make order " + o.getOrderIDInteger());
+		
+		for (String r : o.getRecipe()){
+			
+			System.out.println("Adding " + r);
+		}
+		
+		o.setStatusMessage("complete");
+		
+		return true;
+	}
+}
