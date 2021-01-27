@@ -1,0 +1,13 @@
+import org.json.simple.parser.JSONParser;
+
+public class JSONModule {
+	
+	private JSONParser jparser;
+
+	public JSONModule(){
+		
+		this.jparser = new JSONParser();
+	}
+	
+	
+}

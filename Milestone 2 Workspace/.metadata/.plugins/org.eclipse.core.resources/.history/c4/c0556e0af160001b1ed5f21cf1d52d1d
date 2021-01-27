@@ -1,0 +1,15 @@
+
+public class SubsystemController {
+	
+	private JSONModule jmodule;
+
+	public SubsystemController(){
+		
+		this.jmodule = new JSONModule();
+	}
+	
+	public void addOrder(String jorder){
+		
+		this.jmodule.parseOrder(jorder);
+	}
+}

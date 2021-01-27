@@ -1,0 +1,16 @@
+import org.json.simple.JSONObject;
+import org.json.simple.parser.ParseException;
+
+public class SimpleJParser extends JParserBehavior {
+
+	public SimpleJParser(){
+		
+	}
+	
+	@Override
+	public JSONObject jparse(String jstring) throws ParseException{
+		
+		JSONObject jobject = (JSONObject) this.parse(jstring);
+		return jobject;
+	}
+}

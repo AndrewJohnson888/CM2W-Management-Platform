@@ -1,0 +1,41 @@
+import static org.junit.Assert.*;
+
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject; //JSON library
+import org.junit.Test;
+
+public class Tests {
+
+	@Test
+	public void test() {
+		
+		SubsystemController sc = new SubsystemController();
+		
+		String jstring = {
+  "order": { "orderID": 1,
+            "address": {
+                  "street": "200 N Main",
+                  "ZIP": 47803
+            },
+            "drink": "Americano",
+            "condiments": [
+                {"name": "Sugar", "qty": 1},
+                {"name": "Cream", "qty": 2}
+            ]
+            }
+}
+		
+//		JSONObject json = new JSONObject();
+//		json.put("order", jorder);
+//		
+//		JSONObject jorder = new JSONObject();
+//		jorder.put("OrderID", 1);
+//		
+//		JSONObject jaddress = new JSONObject();
+//		jaddress.put("street", "ZIP")
+		
+		
+		System.out.println(json.toJSONString());
+	}
+
+}

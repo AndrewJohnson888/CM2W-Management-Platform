@@ -1,0 +1,21 @@
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+
+public abstract class JParserBehavior extends JSONParser {
+
+	
+	public abstract JSONObject jparse(String jstring);
+	
+	protected JSONObject getObject(JSONObject jobject, String key){
+		
+		if (jobject.containsKey(key)) return (JSONObject) jobject.get(key);
+		return null;
+	}
+	
+	protected JSONArray getArray(JSONObject jobject, String key){
+		
+		if (jobject.containsKey(key)) return (JSONArray) jobject.get(key);
+		return null;
+	}
+}

@@ -1,0 +1,20 @@
+import static org.junit.Assert.*;
+
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject; //JSON library
+import org.junit.Test;
+
+public class Tests {
+
+	@Test
+	public void test() {
+		
+		SubsystemController sc = new SubsystemController();
+		JSONObject json = new JSONObject();
+		JSONObject order = new JSONObject();
+		order.put("OrderID", 1);
+		json.put("order", order);
+		
+	}
+
+}

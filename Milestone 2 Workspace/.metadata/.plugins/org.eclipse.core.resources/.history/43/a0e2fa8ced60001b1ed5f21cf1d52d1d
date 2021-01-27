@@ -1,0 +1,8 @@
+
+public class SimpleJParser implements JParserBehavior {
+
+	public SimpleJParser(){
+		
+		
+	}
+}

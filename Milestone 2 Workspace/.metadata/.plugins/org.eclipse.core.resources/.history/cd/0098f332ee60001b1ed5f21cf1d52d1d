@@ -1,0 +1,15 @@
+import org.json.simple.JSONObject;
+
+public class SimpleJParser extends JParserBehavior {
+
+	public SimpleJParser(){
+		
+		
+	}
+	
+	@Override
+	public JSONObject jparse(String jstring){
+		
+		return null;
+	}
+}

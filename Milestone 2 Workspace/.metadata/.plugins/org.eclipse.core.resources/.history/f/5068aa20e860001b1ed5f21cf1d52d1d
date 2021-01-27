@@ -1,0 +1,15 @@
+import static org.junit.Assert.*;
+import org.json.simple.JSONObject;
+import org.junit.Test;
+
+public class Tests {
+
+	@Test
+	public void test() {
+		
+		SubsystemController sc = new SubsystemController();
+		JSONObject json = new JSONObject();
+		
+	}
+
+}
