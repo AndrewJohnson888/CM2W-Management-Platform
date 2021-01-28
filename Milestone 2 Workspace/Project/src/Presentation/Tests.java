@@ -96,7 +96,13 @@ public class Tests {
 		
 		compareControllerJSON(jcommand, command, "Automated");
 		
+		order = "{\"order\": { \"orderID\": 2,\"address\": {\"street\": \"200 N Main\",\"ZIP\": 47803},\"drink\": \"Expresso\"}}";
+		command = "{\"command\": {\"controller_id\": 1,\"coffee_machine_id\": 2,\"orderID\": 2,\"DrinkName\": \"Expresso\",\"Requesttype\": \"Simple\"}}";
 		
+		jcommand = sc.addOrder(order);
+		
+		System.out.println("Sending to system:");
+		System.out.println(order);
 		//testing controller to system to app
 		compareControllerJSON(jcommand, command, "Simple");
 		
