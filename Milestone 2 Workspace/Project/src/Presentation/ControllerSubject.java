@@ -1,6 +1,6 @@
-package Domain;
+package Presentation;
 
-import Presentation.ControllerObserver;
+import Domain.Order;
 
 public interface ControllerSubject {
 	

@@ -7,13 +7,16 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.junit.Test;
 
-import Domain.AppSubject;
-import Domain.ControllerSubject;
 import Domain.SubsystemController;
 
 public class Tests {
 	
 	private void compareControllerJSON(String jstring1, String jstring2, String type) throws ParseException{
+		System.out.println("Comparing system response:");
+		System.out.println(jstring1);
+		System.out.println("To expected:");
+		System.out.println(jstring2);
+		System.out.println("");
 		
 		JSONParser jparser = new JSONParser();
 		
@@ -49,6 +52,11 @@ public class Tests {
 	}
 	
 	private void compareAppJSON(String jstring1, String jstring2) throws ParseException {
+		System.out.println("Comparing system response:");
+		System.out.println(jstring1);
+		System.out.println("To expected:");
+		System.out.println(jstring2);
+		System.out.println("");
 		
 		JSONParser jparser = new JSONParser();
 		
@@ -71,16 +79,20 @@ public class Tests {
 	@Test
 	public void testOrder1() throws ParseException {
 		
+		
 		SubsystemController sc = new SubsystemController();
-		AppSubject as = (AppSubject) sc;
-		ControllerSubject cs = (ControllerSubject) sc;
+		//AppSubject as = (AppSubject) sc;
+		//ControllerSubject cs = (ControllerSubject) sc;
 		
 		
 		//testing app to system to controller
 		String order = "{\"order\": { \"orderID\": 1,\"address\": {\"street\": \"200 N Main\",\"ZIP\": 47803},\"drink\": \"Americano\",\"condiments\": [{\"name\": \"Sugar\", \"qty\": 1},{\"name\": \"Cream\", \"qty\": 2}]}}";	
 		String command = "{\"command\": {\"controller_id\": 2,\"coffee_machine_id\": 1,\"orderID\": 1,\"DrinkName\": \"Americano\",\"Requesttype\": \"Automated\",\"Options:\": [{\"Name\": \"Cream\", \"qty\": 2},{\"Name\": \"Sugar\", \"qty\": 1}]}}";
 			                                                                                             
-		String jcommand = as.addOrder(order);
+		String jcommand = sc.addOrder(order);
+		
+		System.out.println("Sending to system:");
+		System.out.println(order);
 		
 		compareControllerJSON(jcommand, command, "Automated");
 		
@@ -91,7 +103,10 @@ public class Tests {
 		String controllerResponse = "{\"drinkresponse\": {\"orderID\": 1,\"status\": 0}}";
 		String appResponse = "{\"user-response\": {\"orderID\": 1,\"coffee_machine_id\": 1,\"status\": 0,\"status-message\": \"Your coffee has been prepared with your desired options.\"}}";
 		
-		String jresponse = cs.drinkResponse(controllerResponse);
+		String jresponse = sc.drinkResponse(controllerResponse);
+		
+		System.out.println("Sending to system:");
+		System.out.println(controllerResponse);
 		
 		compareAppJSON(jresponse, appResponse);
 	}
@@ -100,22 +115,27 @@ public class Tests {
 	public void testOrder2() throws ParseException {
 		
 		SubsystemController sc = new SubsystemController();
-		AppSubject as = (AppSubject) sc;
-		ControllerSubject cs = (ControllerSubject) sc;
+//		AppSubject as = (AppSubject) sc;
+//		ControllerSubject cs = (ControllerSubject) sc;
 		
 		
 		//testing app to system to controller
 		String order = "{\"order\": { \"orderID\": 2,\"address\": {\"street\": \"200 N Main\",\"ZIP\": 47803},\"drink\": \"Expresso\"}}";
 		String command = "{\"command\": {\"controller_id\": 1,\"coffee_machine_id\": 2,\"orderID\": 2,\"DrinkName\": \"Expresso\",\"Requesttype\": \"Simple\"}}";
 		
-		String jcommand = as.addOrder(order);
+		String jcommand = sc.addOrder(order);
 		
 
 		//testing controller to system to app
 		String controllerResponse = "{\"drinkresponse\": {\"orderID\": 2,\"status\": 1,\"errordesc\": \"Out of milk, drink cancelled.\",\"errorcode\": 2}}";
 		String appResponse = "{\"user-response\": {\"orderID\": 2,\"coffee_machine_id\": 2,\"status\": 1,\"status-message\": \"Your coffee order has been cancelled.\",\"error-message\": \"Out of milk, drink cancelled.\"}}";
 		
-		String jresponse = cs.drinkResponse(controllerResponse);
+		System.out.println("Sending to system:");
+		System.out.println(controllerResponse);
+		
+		String jresponse = sc.drinkResponse(controllerResponse);
+		
+		
 		
 		compareAppJSON(jresponse, appResponse);
 	}
@@ -124,15 +144,18 @@ public class Tests {
 	public void testOrder3() throws ParseException {
 		
 		SubsystemController sc = new SubsystemController();
-		AppSubject as = (AppSubject) sc;
-		ControllerSubject cs = (ControllerSubject) sc;
+//		AppSubject as = (AppSubject) sc;
+//		ControllerSubject cs = (ControllerSubject) sc;
 		
 		
 		//testing app to system to controller
 		String order = "{\"order\": { \"orderID\": 3,\"address\": {\"street\": \"200 N Main\",\"ZIP\": 47803},\"drink\": \"Pumkin Spice\",\"condiments\": [{\"name\": \"Cream\", \"qty\": 1}]}}";
 		String command = "{\"command\": {\"controller_id\": 2,\"coffee_machine_id\": 1,\"orderID\": 3,\"DrinkName\": \"Pumkin Spice\",\"Requesttype\": \"Automated\",\"Options:\": [{\"Name\": \"Cream\", \"qty\": 1}]}}";
 		
-		String jcommand = as.addOrder(order);
+		String jcommand = sc.addOrder(order);
+		
+		System.out.println("Sending to system:");
+		System.out.println(order);
 		
 		compareControllerJSON(jcommand, command, "Automated");
 		
@@ -141,7 +164,10 @@ public class Tests {
 		String controllerResponse = "{\"drinkresponse\": {\"orderID\": 3,\"status\": 1,\"errordesc\": \"Machine jammed.\",\"errorcode\": 26}}";
 		String appResponse = "{\"user-response\": {\"orderID\": 3,\"coffee_machine_id\": 1,\"status\": 1,\"status-message\": \"Your coffee order has been cancelled.\",\"error-message\": \"Machine jammed.\"}}";
 		
-		String jresponse = cs.drinkResponse(controllerResponse);
+		String jresponse = sc.drinkResponse(controllerResponse);
+		
+		System.out.println("Sending to system:");
+		System.out.println(controllerResponse);
 		
 		compareAppJSON(jresponse, appResponse);
 	}

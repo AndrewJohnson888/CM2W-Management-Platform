@@ -1,6 +1,6 @@
-package Domain;
+package Presentation;
 
-import Presentation.AppObserver;
+import Domain.Order;
 
 public interface AppSubject {
 

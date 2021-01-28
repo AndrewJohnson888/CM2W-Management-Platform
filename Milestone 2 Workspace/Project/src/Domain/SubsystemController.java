@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import org.json.simple.parser.ParseException;
 
 import Presentation.AppObserver;
+import Presentation.AppSubject;
 import Presentation.ControllerObserver;
+import Presentation.ControllerSubject;
 
 public class SubsystemController implements ControllerSubject, AppSubject{
 	
@@ -31,7 +33,7 @@ public class SubsystemController implements ControllerSubject, AppSubject{
 		}
 		
 		catch (ParseException e) {
-
+			//TODO send error to app
 			System.out.println("ERROR: Invalid Order Format.");
 		}
 		
