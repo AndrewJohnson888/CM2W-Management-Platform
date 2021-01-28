@@ -1,0 +1,16 @@
+
+public abstract class Order {
+	
+	protected int orderID;
+	protected int controllerID;
+	protected String orderType;
+	protected int status;
+	protected String message;
+
+	public abstract int getControllerID();
+	public abstract String getOrderType();
+	public abstract String constructCommand();
+	public abstract String constructResponse();
+	public abstract boolean checkID(int id);
+	public abstract void updateStatus(int status, String message);
+}

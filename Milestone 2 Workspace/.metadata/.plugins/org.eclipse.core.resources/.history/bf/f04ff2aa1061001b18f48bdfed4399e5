@@ -1,0 +1,8 @@
+
+public class SimpleOrder extends Order{
+
+	public SimpleOrder(int orderID, String drink){
+		
+		
+	}
+}

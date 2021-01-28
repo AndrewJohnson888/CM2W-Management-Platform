@@ -1,0 +1,8 @@
+
+public abstract class Order {
+
+	public abstract int getControllerID();
+	public abstract String getOrderType();
+	public abstract String constructCommand();
+	public abstract boolean checkID(int id);
+}

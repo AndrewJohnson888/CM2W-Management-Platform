@@ -1,0 +1,19 @@
+
+public class ControllerLocator {
+	
+	private final String databaseString = "src/";
+	private final String capabilityFile = "Capability";
+	private final String coffeeMakerFile = "CoffeeMaker";
+	private final String coffeeMakerCapabilityFile = "CoffeeMakerCapability";
+	private final String coffeeMakerDrinkFile = "CoffeeMakerDrink";
+	private final String condimentFile = "Condiment";
+	private final String controllerFile = "Controller";
+	private final String drinkIngredientFile = "DrinkIngredient";
+	private final String drinkTypesFile = "DrinkTypes";
+	private final String ingredientFile = "Ingredient";
+
+	public ControllerLocator(){
+		
+		
+	}
+}

@@ -1,0 +1,24 @@
+
+public class SimpleOrder extends Order{
+	
+	private int orderID;
+	private String drink;
+	private int controllerID;
+	private int coffeeMachineID;
+
+	public SimpleOrder(int orderID, String drink, int controllerID, int coffeeMachineID){
+		
+		this.orderID = orderID;
+		this.drink = drink;
+		this.controllerID = controllerID;
+		this.coffeeMachineID = coffeeMachineID;
+	}
+	
+	public void print(){
+		
+		System.out.println(this.orderID);
+		System.out.println(this.drink);
+		System.out.println(this.controllerID);
+		System.out.println(this.coffeeMachineID);
+	}
+}

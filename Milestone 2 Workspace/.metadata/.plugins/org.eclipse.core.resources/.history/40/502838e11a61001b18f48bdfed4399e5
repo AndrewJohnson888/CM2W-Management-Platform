@@ -1,0 +1,6 @@
+
+public abstract class Order {
+
+	public abstract int getControllerID();
+	public abstract String getOrderType();
+}

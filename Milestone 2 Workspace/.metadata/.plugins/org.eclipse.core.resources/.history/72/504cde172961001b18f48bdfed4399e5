@@ -1,0 +1,38 @@
+import org.json.simple.JSONObject;
+
+public abstract class Order {
+	
+	protected int orderID;
+	protected int controllerID;
+	protected String orderType;
+	protected int status;
+	protected String message;
+	private String drink;
+	private int coffeeMachineID;
+	
+	protected String constructResponse() {
+		
+		JSONObject jresponse = new JSONObject();
+		jresponse.put("orderID", this.orderID);
+		jresponse.put("coffee_machine_id", this.coffeeMachineID);
+		jresponse.put("status", this.status);
+		
+		if (this.status == 0) jresponse.put("status-message", "Your coffee has been prepared with your desired options.");
+		else {
+			
+			jresponse.put("status-message", "Your coffee order has been cancelled.");
+			jresponse.put("error-message", this.message);
+		}
+		
+		JSONObject jobject = new JSONObject();
+		jobject.put("user-response", jresponse);
+		
+		return jobject.toJSONString();
+	}
+
+	public abstract int getControllerID();
+	public abstract String getOrderType();
+	public abstract String constructCommand();
+	public abstract boolean checkID(int id);
+	public abstract void updateStatus(int status, String message);
+}
