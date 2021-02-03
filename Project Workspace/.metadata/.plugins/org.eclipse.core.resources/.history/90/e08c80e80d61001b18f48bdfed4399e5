@@ -1,0 +1,42 @@
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
+public abstract class JParserBehavior extends JSONParser {
+	
+	// make custom exception if json doesn't contain key
+	
+	protected ControllerLocator locator;
+	
+	public JParserBehavior(){
+		
+		this.locator = new ControllerLocator();
+	}
+	
+	public abstract Order jparse(String jstring) throws ParseException;
+	
+	protected JSONObject getObject(JSONObject jobject, String key) throws ParseException{
+		
+		if (jobject.containsKey(key)) return (JSONObject) jobject.get(key);
+		throw new ParseException(0);
+	}
+	
+	protected JSONArray getArray(JSONObject jobject, String key) throws ParseException{
+		
+		if (jobject.containsKey(key)) return (JSONArray) jobject.get(key);
+		throw new ParseException(0);
+	}
+	
+	protected String getString(JSONObject jobject, String key) throws ParseException{
+		
+		if (jobject.containsKey(key)) return (String) jobject.get(key);
+		throw new ParseException(0);
+	}
+	
+	protected int getInteger(JSONObject jobject, String key) throws ParseException{
+		
+		if (jobject.containsKey(key)) return (int) jobject.get(key);
+		throw new ParseException(0);
+	}
+}

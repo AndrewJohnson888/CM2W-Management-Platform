@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<qualifiedTypeNameHistroy>
+<fullyQualifiedTypeName name="java.io.FileNotFoundException"/>
+<fullyQualifiedTypeName name="java.util.Scanner"/>
+<fullyQualifiedTypeName name="java.io.File"/>
+<fullyQualifiedTypeName name="java.util.HashMap"/>
+<fullyQualifiedTypeName name="java.util.ArrayList"/>
+<fullyQualifiedTypeName name="org.json.simple.JSONArray"/>
+<fullyQualifiedTypeName name="org.json.simple.JSONObject"/>
+<fullyQualifiedTypeName name="org.json.simple.parser.JSONParser"/>
+<fullyQualifiedTypeName name="Presentation.ControllerObserver"/>
+<fullyQualifiedTypeName name="DataSource.PersistenceInterface"/>
+<fullyQualifiedTypeName name="Presentation.AppObserver"/>
+<fullyQualifiedTypeName name="Domain.SubsystemController"/>
+<fullyQualifiedTypeName name="Domain.AppSubject"/>
+<fullyQualifiedTypeName name="Domain.ControllerSubject"/>
+</qualifiedTypeNameHistroy>

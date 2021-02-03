@@ -1,0 +1,15 @@
+
+public class SubsystemController {
+	
+	private JSONParser jparser;
+
+	public SubsystemController(){
+		
+		
+	}
+	
+	public void addOrder(String jorder){
+		
+		 = new JSONParser();
+	}
+}

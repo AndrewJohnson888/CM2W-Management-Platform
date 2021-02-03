@@ -1,0 +1,13 @@
+
+public class SimpleJParser extends JParserBehavior {
+
+	public SimpleJParser(){
+		
+		
+	}
+	
+	public JSONObject jparse(String jstring){
+		
+		
+	}
+}

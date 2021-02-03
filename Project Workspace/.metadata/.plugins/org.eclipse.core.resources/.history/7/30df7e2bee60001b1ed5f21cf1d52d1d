@@ -1,0 +1,14 @@
+import org.json.simple.JSONObject;
+
+public class SimpleJParser extends JParserBehavior {
+
+	public SimpleJParser(){
+		
+		
+	}
+	
+	public JSONObject jparse(String jstring){
+		
+		return null;
+	}
+}

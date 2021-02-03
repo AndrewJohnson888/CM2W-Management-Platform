@@ -1,5 +1,0 @@
-
-public interface MachineCapabilityBehavior {
-
-	public void makeCoffee();
-}

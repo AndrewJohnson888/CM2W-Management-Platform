@@ -1,0 +1,18 @@
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+
+public class SimpleJConstructor implements JConstructorBehavior{
+
+	@Override
+	public String jconstruct(Order o) {
+		
+		
+		JSONObject jcommand = new JSONObject();
+		jcommand.put("controller_id", 1);
+		jcommand.put("coffee_machine_id", 2);
+		jcommand.put("orderID", value)
+	
+		JSONObject jobject = new JSONObject();
+		
+	}
+}

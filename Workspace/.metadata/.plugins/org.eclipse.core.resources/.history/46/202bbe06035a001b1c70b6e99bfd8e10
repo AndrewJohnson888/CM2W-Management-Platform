@@ -1,7 +1,0 @@
-
-public interface ControllerSubject {
-
-	public boolean registerControllerObserver(ControllerObserver a);
-	public static ControllerSubject connect() {return null;};
-	public void completeOrder(int appID, int orderID);
-}

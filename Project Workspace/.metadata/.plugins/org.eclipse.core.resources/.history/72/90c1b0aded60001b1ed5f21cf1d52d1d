@@ -1,0 +1,5 @@
+import org.json.simple.parser.JSONParser;
+
+public abstract class JParserBehavior extends JSONParser {
+
+}

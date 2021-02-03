@@ -1,0 +1,16 @@
+
+public class Response {
+	
+	private int orderID;
+	private int coffeeMachineID;
+	private int status;
+	private String message;
+
+	public Response(int orderID, int coffeeMachineID, int status, String message){
+		
+		this.orderID = orderID;
+		this.coffeeMachineID = coffeeMachineID;
+		this.status = status;
+		this.message = message;
+	}
+}

@@ -1,0 +1,38 @@
+package Domain;
+
+import Presentation.AppObserver;
+import Presentation.AppSubject;
+
+public class AppCommunicator implements AppObserver, AppSubject{
+
+	@Override
+	public void registerAppObserver(AppObserver a) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void removeAppObserver(AppObserver a) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public String notifyAppObserver(Order o) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String addOrder(String jorder) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void update() {
+		// TODO Auto-generated method stub
+		
+	}
+
+}

@@ -1,0 +1,28 @@
+import java.util.HashMap;
+
+public class AutomatedOrder extends Order{
+
+	private int orderID;
+	private String drink;
+	private int controllerID;
+	private int coffeeMachineID;
+	private HashMap<String, Integer> condiments;
+
+	public AutomatedOrder(int orderID, String drink, int controllerID, int coffeeMachineID, HashMap<String, Integer> condiments){
+		
+		this.orderID = orderID;
+		this.drink = drink;
+		this.controllerID = controllerID;
+		this.coffeeMachineID = coffeeMachineID;
+		this.condiments = condiments;
+	}
+	
+	public void print(){
+		
+		System.out.println(this.orderID);
+		System.out.println(this.drink);
+		System.out.println(this.controllerID);
+		System.out.println(this.coffeeMachineID);
+		System.out.println(this.condiments.toString());
+	}
+}

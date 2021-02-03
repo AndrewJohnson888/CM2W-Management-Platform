@@ -1,0 +1,47 @@
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.ParseException;
+
+public class AutomatedJParser extends JParserBehavior{
+
+	@Override
+	public Order jparse(String jstring) throws ParseException {
+
+		JSONObject jobject = (JSONObject) this.parse(jstring);
+		JSONObject jorder = this.getObject(jobject, "order");
+		JSONObject jaddress = this.getObject(jorder, "address");
+		
+		int orderID = this.getInteger(jorder, "orderID");
+		String street = this.getString(jaddress, "street");
+		int zip = this.getInteger(jaddress, "ZIP");
+		String zipString = Integer.toString(zip);
+		String drink = this.getString(jorder, "drink");
+
+		int controllerID = this.locator.getControllerID(street, zipString);
+		int coffeeMachineID = this.locator.getCoffeeMachineID(controllerID, drink);
+		
+		Order order = new AutomatedOrder(orderID, drink, controllerID, coffeeMachineID, condiments);
+		((SimpleOrder) order).print();
+		
+		return order;
+	}
+	
+	private HashMap<String, Integer> extractCondiments(JSONArray jarray) throws ParseException{
+		
+		HashMap<String, Integer> condiments = new HashMap<String, Integer>();
+		
+		for (int i = 0; i < jarray.size(); i++){
+			
+			JSONObject jitem = this.getArrayObject(jarray, i);
+			String name = this.getString(jitem, "name");
+			int quantity = this.getInteger(jitem, "qty");
+			
+			condiments.put(name, quantity);
+		}
+		
+		return condiments;
+	}
+}

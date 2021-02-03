@@ -1,0 +1,28 @@
+package Domain;
+
+import Presentation.AppObserver;
+import Presentation.AppSubject;
+
+public class AppCommunicator implements AppObserver, AppSubject{
+
+	@Override
+	public void registerAppObserver(AppObserver a) {
+		
+		this.apps.add(a);
+	}
+
+	@Override
+	public void removeAppObserver(AppObserver a) {
+		
+		this.apps.remove(a);
+	}
+
+	@Override
+	//would normally send data to identified controller, but will print out instead for testing
+	public String notifyAppObserver(Order o) {
+		
+		String jresponse = o.constructResponse();
+		return jresponse;
+	}
+
+}

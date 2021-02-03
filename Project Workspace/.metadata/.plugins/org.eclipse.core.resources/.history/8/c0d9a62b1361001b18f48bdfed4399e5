@@ -1,0 +1,61 @@
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Scanner;
+
+public class ControllerLocator {
+	
+	private PersistenceInterface pi;
+
+	public ControllerLocator(){
+		
+		this.pi = new PersistenceInterface();
+	}
+	
+	public int getControllerID(String street, String zip){
+		
+		HashMap<String, ArrayList<String>> controllerTable = this.pi.getControllerTable();
+		
+		for (String id : controllerTable.keySet()){
+			
+			if (controllerTable.get(id).get(1).equals(street) && controllerTable.get(id).get(2).equals(zip)){
+				
+				return Integer.parseInt(id);
+			}
+		}
+		
+		System.out.println("ERROR: Could not find controller at provided location.");
+		return -1;
+	}
+	
+	public int getCoffeeMachineID(int controllerID, String drink){
+		
+		String controllerIDString = Integer.toString(controllerID);
+		
+		HashMap<String, ArrayList<String>> coffeeMakerTable = this.getCoffeeMakerTable();
+		HashMap<String, ArrayList<String>> coffeeMakerDrinkTable = this.getCoffeeMakerDrinkTable();
+		
+		for (String machineID : coffeeMakerTable.keySet()){
+			
+			if (coffeeMakerTable.get(machineID).get(0).equals(controllerIDString)){
+				
+				for (String drinkType : coffeeMakerDrinkTable.get(machineID)){
+					
+					if (drinkType.equals(drink)){
+						
+						return Integer.parseInt(machineID);
+					}
+				}
+				
+				break;
+			}
+		}
+		
+		System.out.println(controllerID + " " + drink);
+		System.out.println(coffeeMakerDrinkTable.toString());
+		
+		System.out.println("ERROR: Could not find coffee maker at controller to fulfill order.");
+		return -1;
+	}
+}

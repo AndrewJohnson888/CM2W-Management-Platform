@@ -1,0 +1,38 @@
+package Domain;
+
+import Presentation.ControllerObserver;
+import Presentation.ControllerSubject;
+
+public class ControllerCommunicator implements ControllerSubject, ControllerObserver{
+
+	@Override
+	public void update() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void registerControllerObserver(ControllerObserver c) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void removeControllerObserver(ControllerObserver c) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public String notifyControllerObserver(Order o) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String drinkResponse(String jresponse) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

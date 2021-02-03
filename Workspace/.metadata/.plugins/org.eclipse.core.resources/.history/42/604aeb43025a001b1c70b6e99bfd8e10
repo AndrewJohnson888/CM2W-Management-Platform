@@ -1,5 +1,0 @@
-
-public interface ControllerSubject {
-
-	public static ControllerSubject connect() {return null;};
-}

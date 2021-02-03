@@ -1,0 +1,148 @@
+package Presentation;
+import static org.junit.Assert.*;
+
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject; //JSON library
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+import org.junit.Test;
+
+import Domain.AppSubject;
+import Domain.ControllerSubject;
+import Domain.SubsystemController;
+
+public class Tests {
+	
+	private void compareControllerJSON(String jstring1, String jstring2, String type) throws ParseException{
+		
+		JSONParser jparser = new JSONParser();
+		
+		JSONObject jobject1 = (JSONObject) jparser.parse(jstring1);
+		JSONObject jobject2 = (JSONObject) jparser.parse(jstring2);
+		
+		assertEquals(true, jobject1.containsKey("command"));
+		assertEquals(true, jobject2.containsKey("command"));
+		
+		jobject1 = (JSONObject) jobject1.get("command");
+		jobject2 = (JSONObject) jobject2.get("command");
+		
+		assertEquals(jobject2.get("controller_id"), jobject1.get("controller_id"));
+		assertEquals(jobject2.get("coffee_machine_id"), jobject1.get("coffee_machine_id"));
+		assertEquals(jobject2.get("orderID"), jobject1.get("orderID"));
+		assertEquals(jobject2.get("DrinkName"), jobject1.get("DrinkName"));
+		assertEquals(jobject2.get("Requesttype"), jobject1.get("Requesttype"));
+		
+		JSONArray jarray1 = (JSONArray) jobject1.get("Options:");
+		JSONArray jarray2 = (JSONArray) jobject2.get("Options:");
+		
+		if (type.equals("Automated")){
+		
+			for (int i = 0; i < jarray1.size(); i++){
+	
+				JSONObject jitem1 = (JSONObject) jarray1.get(i);
+				JSONObject jitem2 = (JSONObject) jarray2.get(i);
+				
+				assertEquals(jitem2.get("Name"), jitem1.get("Name"));
+				assertEquals(jitem2.get("qty"), jitem1.get("qty"));
+			}
+		}
+	}
+	
+	private void compareAppJSON(String jstring1, String jstring2) throws ParseException {
+		
+		JSONParser jparser = new JSONParser();
+		
+		JSONObject jobject1 = (JSONObject) jparser.parse(jstring1);
+		JSONObject jobject2 = (JSONObject) jparser.parse(jstring2);
+		
+		assertEquals(true, jobject1.containsKey("user-response"));
+		assertEquals(true, jobject2.containsKey("user-response"));
+		
+		jobject1 = (JSONObject) jobject1.get("user-response");
+		jobject2 = (JSONObject) jobject2.get("user-response");
+		
+		assertEquals(jobject2.get("orderID"), jobject1.get("orderID"));
+		assertEquals(jobject2.get("coffee_machine_id"), jobject1.get("coffee_machine_id"));
+		assertEquals(jobject2.get("status"), jobject1.get("status"));
+		assertEquals(jobject2.get("status-message"), jobject1.get("status-message"));
+		assertEquals(jobject2.get("error-message"), jobject1.get("error-message"));
+	}
+
+	@Test
+	public void testOrder1() throws ParseException {
+		
+		SubsystemController sc = new SubsystemController();
+		AppSubject as = (AppSubject) sc;
+		ControllerSubject cs = (ControllerSubject) sc;
+		
+		
+		//testing app to system to controller
+		String order = "{\"order\": { \"orderID\": 1,\"address\": {\"street\": \"200 N Main\",\"ZIP\": 47803},\"drink\": \"Americano\",\"condiments\": [{\"name\": \"Sugar\", \"qty\": 1},{\"name\": \"Cream\", \"qty\": 2}]}}";	
+		String command = "{\"command\": {\"controller_id\": 2,\"coffee_machine_id\": 1,\"orderID\": 1,\"DrinkName\": \"Americano\",\"Requesttype\": \"Automated\",\"Options:\": [{\"Name\": \"Cream\", \"qty\": 2},{\"Name\": \"Sugar\", \"qty\": 1}]}}";
+			                                                                                             
+		String jcommand = as.addOrder(order);
+		
+		compareControllerJSON(jcommand, command, "Automated");
+		
+		
+		//testing controller to system to app
+		compareControllerJSON(jcommand, command, "Simple");
+		
+		String controllerResponse = "{\"drinkresponse\": {\"orderID\": 1,\"status\": 0}}";
+		String appResponse = "{\"user-response\": {\"orderID\": 1,\"coffee_machine_id\": 1,\"status\": 0,\"status-message\": \"Your coffee has been prepared with your desired options.\"}}";
+		
+		String jresponse = cs.drinkResponse(controllerResponse);
+		
+		compareAppJSON(jresponse, appResponse);
+	}
+
+	@Test
+	public void testOrder2() throws ParseException {
+		
+		SubsystemController sc = new SubsystemController();
+		AppSubject as = (AppSubject) sc;
+		ControllerSubject cs = (ControllerSubject) sc;
+		
+		
+		//testing app to system to controller
+		String order = "{\"order\": { \"orderID\": 2,\"address\": {\"street\": \"200 N Main\",\"ZIP\": 47803},\"drink\": \"Expresso\"}}";
+		String command = "{\"command\": {\"controller_id\": 1,\"coffee_machine_id\": 2,\"orderID\": 2,\"DrinkName\": \"Expresso\",\"Requesttype\": \"Simple\"}}";
+		
+		String jcommand = as.addOrder(order);
+		
+
+		//testing controller to system to app
+		String controllerResponse = "{\"drinkresponse\": {\"orderID\": 2,\"status\": 1,\"errordesc\": \"Out of milk, drink cancelled.\",\"errorcode\": 2}}";
+		String appResponse = "{\"user-response\": {\"orderID\": 2,\"coffee_machine_id\": 2,\"status\": 1,\"status-message\": \"Your coffee order has been cancelled.\",\"error-message\": \"Out of milk, drink cancelled.\"}}";
+		
+		String jresponse = cs.drinkResponse(controllerResponse);
+		
+		compareAppJSON(jresponse, appResponse);
+	}
+
+	@Test
+	public void testOrder3() throws ParseException {
+		
+		SubsystemController sc = new SubsystemController();
+		AppSubject as = (AppSubject) sc;
+		ControllerSubject cs = (ControllerSubject) sc;
+		
+		
+		//testing app to system to controller
+		String order = "{\"order\": { \"orderID\": 3,\"address\": {\"street\": \"200 N Main\",\"ZIP\": 47803},\"drink\": \"Pumkin Spice\",\"condiments\": [{\"name\": \"Cream\", \"qty\": 1}]}}";
+		String command = "{\"command\": {\"controller_id\": 2,\"coffee_machine_id\": 1,\"orderID\": 3,\"DrinkName\": \"Pumkin Spice\",\"Requesttype\": \"Automated\",\"Options:\": [{\"Name\": \"Cream\", \"qty\": 1}]}}";
+		
+		String jcommand = as.addOrder(order);
+		
+		compareControllerJSON(jcommand, command, "Automated");
+		
+		
+		//testing controller to system to app
+		String controllerResponse = "{\"drinkresponse\": {\"orderID\": 3,\"status\": 1,\"errordesc\": \"Machine jammed.\",\"errorcode\": 26}}";
+		String appResponse = "{\"user-response\": {\"orderID\": 3,\"coffee_machine_id\": 1,\"status\": 1,\"status-message\": \"Your coffee order has been cancelled.\",\"error-message\": \"Machine jammed.\"}}";
+		
+		String jresponse = cs.drinkResponse(controllerResponse);
+		
+		compareAppJSON(jresponse, appResponse);
+	}
+}

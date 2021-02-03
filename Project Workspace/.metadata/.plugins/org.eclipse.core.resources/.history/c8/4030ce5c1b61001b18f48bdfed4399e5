@@ -1,0 +1,33 @@
+import java.util.HashMap;
+
+public class AutomatedOrder extends Order{
+
+	private int orderID;
+	private String drink;
+	private int controllerID;
+	private int coffeeMachineID;
+	private HashMap<String, Integer> condiments;
+	private String orderType;
+
+	public AutomatedOrder(int orderID, String drink, int controllerID, int coffeeMachineID, HashMap<String, Integer> condiments){
+		
+		this.orderID = orderID;
+		this.drink = drink;
+		this.controllerID = controllerID;
+		this.coffeeMachineID = coffeeMachineID;
+		this.condiments = condiments;
+		this.orderType = "Automated";
+	}
+
+	@Override
+	public int getControllerID() {
+
+		return this.controllerID;
+	}
+
+	@Override
+	public String getOrderType() {
+	
+		return this.orderType;
+	}
+}

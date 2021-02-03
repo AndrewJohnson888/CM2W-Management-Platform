@@ -1,0 +1,78 @@
+import org.json.simple.JSONObject;
+
+public class SimpleOrder extends Order{
+	
+	private String drink;
+	private int coffeeMachineID;
+
+	public SimpleOrder(int orderID, String drink, int controllerID, int coffeeMachineID){
+		
+		this.orderID = orderID;
+		this.drink = drink;
+		this.controllerID = controllerID;
+		this.coffeeMachineID = coffeeMachineID;
+		this.orderType= "Simple";
+	}
+
+	@Override
+	public int getControllerID() {
+
+		return this.controllerID;
+	}
+
+	@Override
+	public String getOrderType() {
+	
+		return this.orderType;
+	}
+
+	@Override
+	public String constructCommand() {
+		
+		JSONObject jcommand = new JSONObject();
+		jcommand.put("controller_id", this.controllerID);
+		jcommand.put("coffee_machine_id", this.coffeeMachineID);
+		jcommand.put("orderID", this.orderID);
+		jcommand.put("DrinkName", this.drink);
+		jcommand.put("Requesttype", this.orderType);
+		
+		JSONObject jobject = new JSONObject();
+		jobject.put("command", jcommand);
+		
+		return jobject.toJSONString();
+	}
+
+	@Override
+	public boolean checkID(int id) {
+
+		return this.orderID == id;
+	}
+
+	@Override
+	public void updateStatus(int status, String message) {
+		
+		this.status = status;
+		this.message = message;
+	}
+
+	@Override
+	public String constructResponse() {
+		
+		JSONObject jresponse = new JSONObject();
+		jresponse.put("orderID", this.orderID);
+		jresponse.put("coffee_machine_id", this.coffeeMachineID);
+		jresponse.put("status", this.status);
+		
+		if (this.status == 0) jresponse.put("status-message", "Your coffee has been prepared with your desired options.");
+		else {
+			
+			jresponse.put("status-message", "Your coffee order has been cancelled.");
+			jresponse.put("error-message", this.message);
+		}
+		
+		JSONObject jobject = new JSONObject();
+		jobject.put("user-response", jresponse);
+		
+		return jobject.toJSONString();
+	}
+}
