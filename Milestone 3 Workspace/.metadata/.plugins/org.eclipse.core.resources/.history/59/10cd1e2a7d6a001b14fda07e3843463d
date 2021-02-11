@@ -1,0 +1,10 @@
+
+public class CondimentDecorator extends Coffee {
+
+	private Coffee wrapped;
+	
+	public CondimentDecorator(Coffee wrapped){
+		
+		this.wrapped = wrapped;
+	}
+}

@@ -1,0 +1,35 @@
+import java.util.LinkedList;
+import java.util.Queue;
+
+public class ControllerCommunicator {
+	
+	private static ControllerCommunicator uniqueInstance;
+	
+	private Queue<String> responseQueue;
+
+	private ControllerCommunicator(){
+		
+		this.responseQueue = new LinkedList<String>();
+	}
+	
+	public static ControllerCommunicator(){
+		
+		if (ControllerCommunicator.uniqueInstance == null) ControllerCommunicator.uniqueInstance = new ControllerCommunicator();
+		return ControllerCommunicator.uniqueInstance;
+	}
+	
+	public void addResponse(String response){
+		
+		this.responseQueue.add(response);
+	}
+	
+	public String pollResponse(){
+		
+		return this.responseQueue.poll();
+	}
+	
+	public void addOrder(Order order){
+		
+		String jcommand = order.createCommand();
+	}
+}

@@ -1,0 +1,10 @@
+
+public class Controller implements ControllerObserver{
+
+	@Override
+	public void updateController(String command) {
+		// TODO Auto-generated method stub
+		
+	}
+
+}

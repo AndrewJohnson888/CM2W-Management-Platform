@@ -1,0 +1,14 @@
+
+public class ControllerCommunicator {
+
+	public ControllerCommunicator(){
+		
+		
+	}
+	
+	public void addOrder(Order order){
+		
+		String jcommand = order.createCommand();
+		System.out.println("Command: " + jcommand);
+	}
+}

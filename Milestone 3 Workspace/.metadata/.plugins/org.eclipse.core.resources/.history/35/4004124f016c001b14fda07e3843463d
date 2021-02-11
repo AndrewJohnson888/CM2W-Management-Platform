@@ -1,0 +1,107 @@
+import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
+
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
+public class SystemControl {
+
+	private Timer timer;
+	private AppCommunicator appComm;
+	private ControllerCommunicator controllerComm;
+	private OrderFactory factory;
+	private boolean isRunning;
+	private ArrayList<Order> orders;
+	
+	public SystemControl(){
+		
+		this.isRunning = true;
+		this.orders = new ArrayList<Order>();
+		
+		this.appComm = new AppCommunicator();
+		this.controllerComm = new ControllerCommunicator();
+		this.factory = new ConcreteOrderFactory();
+		
+		this.timer = new Timer();
+		this.timer.schedule(new TimerTask() {
+			
+			@Override
+			public void run(){
+				
+				handleOrder();
+				handleResponse();
+			}
+		}, 0, 1000);
+	}
+	
+	public AppCommunicator getAppCommunicator(){
+		
+		return this.appComm;
+	}
+	
+	public ControllerCommunicator getControllerCommunicator(){
+		
+		return this.controllerComm;
+	}
+	
+	private void handleOrder(){
+
+		String order = this.appComm.pollOrder();
+		
+		if (order != null){
+			
+			try {
+				
+				Order o = this.factory.createOrder(order);
+				this.orders.add(o);
+				this.controllerComm.addOrder(o);
+			} 
+			
+			catch (ParseException e) {
+
+				System.out.println("ERROR: Could not parse order.");
+			}
+		}
+	}
+	
+	private void handleResponse(){
+		
+		String response = this.controllerComm.pollResponse();
+		
+		if (response != null){
+			
+			try {
+				
+				JSONModule jmodule = new JSONModule();
+				
+			
+//				JSONObject jobject = (JSONObject) new JSONParser().parse(response);
+//				JSONObject jresponse = (JSONObject) jobject.get("drinkresponse");
+//				long ORDERID = (long) jresponse.get("orderID");
+//				String orderID = Long.toString(ORDERID);
+				
+				Order order = null;
+				
+				for (Order o : this.orders){
+			
+					if (o.checkID(jmodule.getOrderID())) order = o;
+				}
+				
+				order.parseResponse(response);
+				this.appComm.addResponse(order);
+			}
+			
+			catch(ParseException e){
+				
+				System.out.println("ERROR: Could not parse response.");
+			}
+		}
+	}
+	
+	public boolean isRunning(){
+	
+		return this.isRunning;
+	}
+}

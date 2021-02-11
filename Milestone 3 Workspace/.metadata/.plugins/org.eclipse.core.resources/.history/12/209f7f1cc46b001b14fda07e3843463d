@@ -1,0 +1,8 @@
+
+public abstract class Order {
+
+	protected CommandBehavior behavior;
+	public abstract String createCommand();
+	public abstract boolean checkID(String id);
+	public abstract String createResponse();
+}

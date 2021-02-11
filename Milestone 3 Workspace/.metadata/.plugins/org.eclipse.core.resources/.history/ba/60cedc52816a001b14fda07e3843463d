@@ -1,0 +1,19 @@
+import java.util.HashMap;
+
+public class CondimentDecorator extends Coffee {
+
+	private Coffee wrapped;
+	private String name;
+	
+	public CondimentDecorator(String name, Coffee wrapped){
+		
+		this.wrapped = wrapped;
+		this.name = name;
+	}
+
+	@Override
+	public HashMap<String, Integer> getCondiments() {
+		
+		return null;
+	}
+}

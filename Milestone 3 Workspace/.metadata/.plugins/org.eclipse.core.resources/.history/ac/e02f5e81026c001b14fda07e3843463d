@@ -1,0 +1,53 @@
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
+public abstract class Order {
+	
+	protected CommandBehavior behavior;
+	protected Coffee drink;
+	protected String controllerID;
+	protected String machineID;
+
+	public String orderID;
+	private int status = 0;
+	private String statusMessage = "Your coffee has been prepared with your desired options.";
+	private String errorMessage = null;
+	
+	public String createResponse() {	
+	
+		JSONObject jobject = new JSONObject();
+		
+		JSONObject jresponse = new JSONObject();
+		jresponse.put("orderID", Integer.parseInt(this.orderID));
+		jresponse.put("coffee_machine_id", Integer.parseInt(this.machineID));
+		jresponse.put("status", this.status);
+		jresponse.put("status-message", this.statusMessage);
+		if (this.errorMessage != null) jresponse.put("error-message", this.errorMessage);
+		
+		jobject.put("user-response", jresponse);
+		
+		return jobject.toJSONString();
+	}
+
+	public void parseResponse(String jresponse) throws ParseException {
+		
+		JSONModule jmodule = new JSONModule();
+		jmodule.parseResponse(jresponse);
+		
+		this.status = jmodule.getStatus();
+		
+		if (this.status != 0){
+			
+			this.errorMessage = jmodule.getErrorDescription();
+			this.statusMessage = "Your coffee order has been cancelled.";
+		}
+	}
+
+	public boolean checkID(String id) {
+		
+		return this.orderID.equals(id);
+	}
+
+	public abstract String createCommand();
+}

@@ -1,0 +1,5 @@
+
+public interface AppObserver {
+
+	public void updateApp();
+}

@@ -1,0 +1,24 @@
+import java.util.ArrayList;
+import java.util.HashMap;
+
+public class ProgrammableOrder extends Order {
+	
+	public ProgrammableOrder(int orderID, Coffee coffee, int controllerID, int machineID){
+		
+		this.behavior = new ProgrammableCommand();
+		
+		this.orderID = orderID;
+		this.drink = coffee;
+		this.controllerID = controllerID;
+		this.machineID = machineID;
+	}
+
+	@Override
+	public String createCommand() {
+		
+		HashMap<String, Integer> condiments = this.drink.getCondiments();
+		ArrayList<String> recipe = this.drink.getRecipe();
+		String drinkName = this.drink.getName();
+		return this.behavior.createCommand(this.controllerID, this.machineID, this.orderID, drinkName, condiments, recipe);
+	}
+}

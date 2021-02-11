@@ -1,0 +1,30 @@
+
+public class App implements AppObserver {
+	
+	private int appID;
+	private AppSubject subject;
+	private String lastResponse;
+	
+	public App(AppSubject subject){
+		
+		this.subject = subject;
+		this.appID = subject.registerAppObserver(this);
+		this.lastResponse = null;
+		System.out.println(this.appID);
+	}
+
+	public void updateApp(String response) {
+		
+		this.lastResponse = response;
+	}
+	
+	public void sendOrder(String order){
+		
+		this.subject.addOrder(order, this.appID);
+	}
+	
+	public String getLastResponse(){
+		
+		return this.lastResponse;
+	}
+}

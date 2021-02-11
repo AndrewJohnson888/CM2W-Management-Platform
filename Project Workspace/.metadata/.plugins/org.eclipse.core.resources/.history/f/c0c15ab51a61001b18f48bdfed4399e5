@@ -1,5 +1,0 @@
-
-public interface JConstructorBehavior {
-
-	public String jconstruct(Order o);
-}

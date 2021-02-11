@@ -1,0 +1,47 @@
+
+public abstract class Order {
+	
+	protected CommandBehavior behavior;
+	protected Coffee drink;
+	protected int controllerID;
+	protected int machineID;
+
+	public int orderID;
+	private int status = 0;
+	private String statusMessage = "Your coffee has been prepared with your desired options.";
+	private String errorMessage = null;
+	
+	public String createResponse() {	
+		
+		JSONModule jmodule = new JSONModule();
+		jmodule.put("orderID", this.orderID);
+		jmodule.put("coffee_machine_id", this.machineID);
+		jmodule.put("status", this.status);
+		jmodule.put("status-message", this.statusMessage);
+		jmodule.put("error-message", this.errorMessage);
+		jmodule.wrap("user-response");
+		
+		return jmodule.toString();
+	}
+
+	public void parseResponse(String jresponse) {
+		
+		JSONModule jmodule = new JSONModule();
+		jmodule.parseResponse(jresponse);
+		
+		this.status = jmodule.getStatus();
+		
+		if (this.status != 0){
+			
+			this.errorMessage = jmodule.getErrorDescription();
+			this.statusMessage = "Your coffee order has been cancelled.";
+		}
+	}
+
+	public boolean checkID(int id) {
+		
+		return this.orderID == id;
+	}
+
+	public abstract String createCommand();
+}

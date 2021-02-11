@@ -1,0 +1,14 @@
+import org.json.simple.parser.JSONParser;
+
+public class SimpleCommand implements CommandBehavior {
+	
+	private JSONParser jparser = new JSONParser();
+
+	@Override
+	public String createCommand() {
+		
+		
+		
+		return null;
+	}
+}

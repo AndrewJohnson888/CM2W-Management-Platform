@@ -1,0 +1,8 @@
+
+public interface ControllerSubject {
+
+	public void addResponse(String response);
+	public void notifyControllerObserver(String response, int appID);
+	public int registerControllerObserver(AppObserver app);
+	public void removeControllerObserver(AppObserver app);
+}

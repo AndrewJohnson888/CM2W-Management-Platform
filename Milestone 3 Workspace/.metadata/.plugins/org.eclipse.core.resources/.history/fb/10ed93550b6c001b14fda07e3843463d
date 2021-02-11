@@ -1,0 +1,37 @@
+
+import java.util.LinkedList;
+import java.util.Queue;
+
+public class AppCommunicator implements AppSubject{
+	
+	private static AppCommunicator uniqueInstance = new AppCommunicator();
+	
+	private Queue<String> orderQueue;
+
+	public AppCommunicator(){ this.orderQueue = new LinkedList<String>(); }
+	
+	public void notifyAppObserver(Order order){
+		
+		String jresponse = order.createResponse();
+	}
+	
+	public static AppCommunicator getInstance(){
+		
+		return AppCommunicator.uniqueInstance;
+	}
+	
+	public void addOrder(String order){ this.orderQueue.add(order); }
+	public String pollOrder(){ return this.orderQueue.poll(); }
+
+	@Override
+	public void registerAppObserver(AppObserver a) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void removeAppObserver(AppObserver a) {
+		// TODO Auto-generated method stub
+		
+	}
+}

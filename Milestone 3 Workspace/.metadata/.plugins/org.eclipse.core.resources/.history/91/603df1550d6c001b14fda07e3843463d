@@ -1,0 +1,43 @@
+
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.Queue;
+
+public class AppCommunicator implements AppSubject{
+	
+	private static AppCommunicator uniqueInstance = new AppCommunicator();
+	private static int NEXT_APP_ID = 0;
+	
+	private Queue<String> orderQueue;
+	private HashMap<Integer, AppObserver> apps;
+
+	public AppCommunicator(){ 
+		
+		this.orderQueue = new LinkedList<String>();
+		this.apps = new HashMap<Integer, AppObserver>();
+	}
+	
+	public static AppCommunicator getInstance(){ return AppCommunicator.uniqueInstance; }
+	
+	public void notifyAppObserver(String response, int appID){
+		
+		
+	}
+
+	public void registerAppObserver(AppObserver app) {
+		
+		this.apps.put(NEXT_APP_ID, app);
+		NEXT_APP_ID ++;
+	}
+
+	public void removeAppObserver(AppObserver app) {
+		
+		for (int key : this.apps.keySet()){
+			
+			if (this.apps.get(key).equals(app)) this.apps.remove(key);
+		}
+	}
+	
+	public void addOrder(String order){ this.orderQueue.add(order); }
+	public String pollOrder(){ return this.orderQueue.poll(); }
+}

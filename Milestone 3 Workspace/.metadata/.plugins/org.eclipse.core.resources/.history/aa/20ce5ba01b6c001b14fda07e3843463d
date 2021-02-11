@@ -1,0 +1,86 @@
+{
+  "command": {
+    "controller_id": 2,
+    "coffee_machine_id": 1,
+    "orderID": 1,
+    "DrinkName": "Americano",
+    "Requesttype": "Automated",
+    "Options:": [
+        {"Name": "Cream", "qty": 2},
+        {"Name": "Sugar", "qty": 1}
+    ]
+  }
+}
+{
+  "command": {
+    "controller_id": 1,
+    "coffee_machine_id": 2,
+    "orderID": 1
+    "DrinkName": "Expresso",
+    "Requesttype": "Simple"
+  }
+}
+{
+  "command": {
+    "controller_id": 2,
+    "coffee_machine_id": 1,
+    "orderID": 1,
+    "DrinkName": "Pumkin Spice",
+    "Requesttype": "Automated",
+    "Options:": [
+        {"Name": "Cream", "qty": 1}
+    ]
+  }
+}
+{
+  "command": {
+    "controller_id": 2,
+    "coffee_machine_id": 1,
+    "orderID": 1,
+    "DrinkName": "Regular Latte",
+    "Requesttype": "Programmable",
+    "Options:": [
+        {"Name": "hazelnut", "qty": 2}
+    ]
+    "Recipe": [
+        {"commandstep": "steam", "object": "milk"},
+        {"commandstep": "add", "object": "expresso"},
+        {"commandstep": "top", "object": "whipped cream"}
+    ]
+}
+{
+  "command": {
+    "controller_id": 2,
+    "coffee_machine_id": 1,
+    "orderID": 1,
+    "DrinkName": "Large Latte",
+    "Requesttype": "Programmable",
+    "Options:": [
+        {"Name": "hazelnut", "qty": 4}
+    ]
+    "Recipe": [
+        {"commandstep": "steam", "object": "milk"},
+        {"commandstep": "steam", "object": "milk"},
+        {"commandstep": "add", "object": "expresso"},
+        {"commandstep": "add", "object": "expresso"},
+        {"commandstep": "mix"},
+        {"commandstep": "top", "object": "whipped cream"}
+    ]
+}
+{
+  "command": {
+    "controller_id": 2,
+    "coffee_machine_id": 1,
+    "orderID": 1,
+    "DrinkName": "Pumpkin Spice",
+    "Requesttype": "Programmable",
+    "Options:": [
+        {"Name": "sugar", "qty": 2}
+    ]
+    "Recipe": [
+        {"commandstep": "add", "object": "coffee"},
+        {"commandstep": "add", "object": "pumpkin spice"},
+        {"commandstep": "mix"},
+        {"commandstep": "top", "object": "nutmeg"}
+    ]
+}

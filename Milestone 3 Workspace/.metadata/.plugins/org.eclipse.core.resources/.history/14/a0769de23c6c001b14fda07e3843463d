@@ -1,0 +1,9 @@
+package Presentation;
+
+public interface AppSubject {
+
+	public void addOrder(String order, int appID);
+	public void notifyAppObserver(String response, int appID);
+	public int registerAppObserver(AppObserver app);
+	public void removeAppObserver(int appID);
+}

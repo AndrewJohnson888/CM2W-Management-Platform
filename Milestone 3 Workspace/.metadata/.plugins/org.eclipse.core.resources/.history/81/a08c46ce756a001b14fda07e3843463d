@@ -1,0 +1,15 @@
+
+public class ControllerLocator {
+	
+	private PersistenceInterface pi;
+
+	public ControllerLocator(){
+		
+		this.pi = new PersistenceInterface();
+	}
+	
+	public void locateMachine(boolean hasCondiments, String drink){
+		
+		
+	}
+}

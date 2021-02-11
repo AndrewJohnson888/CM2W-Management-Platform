@@ -1,0 +1,11 @@
+
+public class SimpleCommand implements CommandBehavior {
+
+	@Override
+	public String createCommand() {
+
+		
+		
+		return null;
+	}
+}

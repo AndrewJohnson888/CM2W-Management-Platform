@@ -1,0 +1,5 @@
+
+public interface AppSubject {
+
+	public void addOrder(String order);
+}

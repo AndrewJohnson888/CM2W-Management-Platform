@@ -1,0 +1,8 @@
+
+public interface AppSubject {
+
+	public void addOrder(String order);
+	public void notifyAppObserver(Order order);
+	public void registerAppObserver(AppObserver a);
+	public void removeAppObserver(AppObserver a);
+}

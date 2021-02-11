@@ -1,0 +1,23 @@
+import java.util.LinkedList;
+import java.util.Queue;
+
+public class ControllerCommunicator {
+	
+	private Queue<String> responseQueue;
+
+	public ControllerCommunicator(){
+		
+		this.responseQueue = new LinkedList<String>();
+	}
+	
+	public void addResponse(String response){
+		
+		this.responseQueue.add(response);
+	}
+	
+	public void addOrder(Order order){
+		
+		String jcommand = order.createCommand();
+		System.out.println("Command: " + jcommand);
+	}
+}

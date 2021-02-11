@@ -1,0 +1,17 @@
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import org.json.simple.JSONObject;
+
+public class ProgrammableCommand implements CommandBehavior {
+
+	@Override
+	public String createCommand(String controllerID, String machineID, String orderID, String drink, HashMap<String, Integer> options, ArrayList<String> recipe) {
+		
+		JSONObject jobject = new JSONObject();
+		
+		
+		
+		return null;
+	}
+}

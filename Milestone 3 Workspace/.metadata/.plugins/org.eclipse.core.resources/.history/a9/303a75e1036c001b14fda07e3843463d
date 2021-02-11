@@ -1,0 +1,54 @@
+import java.util.ArrayList;
+
+public class ControllerLocator {
+	
+	private PersistenceInterface pi;
+	
+	private ArrayList<String> lastRecipe;
+	private String lastMachineID;
+	private String lastControllerID;
+	private MachineType machineType;
+
+	public ControllerLocator(){
+		
+		this.pi = new PersistenceInterface();
+		
+		this.lastRecipe = null;
+		this.lastMachineID = null;
+		this.lastControllerID = null;
+		this.machineType = null;
+	}
+	
+	public void locateMachine(boolean hasCondiments, String drink, String street, String zip){
+		
+		this.lastRecipe = this.pi.getRecipe(drink);
+		
+		this.machineType = MachineType.SIMPLE;
+		if (hasCondiments) this.machineType = MachineType.AUTOMATED;
+		if (lastRecipe != null) this.machineType = MachineType.PROGRAMMABLE;
+		
+		String[] machineIdentification = this.pi.findMachine(this.machineType, street, zip);
+		this.lastMachineID = machineIdentification[0];
+		this.lastControllerID = machineIdentification[1];
+	}
+	
+	public int getMachine(){
+		
+		return this.lastMachineID;
+	}
+	
+	public int getController(){
+		
+		return this.lastControllerID;
+	}
+	
+	public ArrayList<String> getRecipe(){
+		
+		return this.lastRecipe;
+	}
+	
+	public MachineType getType(){
+		
+		return this.machineType;
+	}
+}

@@ -1,0 +1,13 @@
+
+public class ControllerCommunicator {
+
+	public ControllerCommunicator(){
+		
+		
+	}
+	
+	public void addOrder(Order order){
+		
+		
+	}
+}

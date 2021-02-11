@@ -1,0 +1,33 @@
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
+public class SimpleOrder extends Order {
+
+	public SimpleOrder(String orderID, Coffee coffee, String controllerID, String machineID){
+		
+		this.behavior = new SimpleCommand();
+		
+		this.orderID = orderID;
+		this.drink = coffee;
+		this.controllerID = controllerID;
+		this.machineID = machineID;
+		
+		this.status = 0;
+		this.statusMessage = "Your coffee has been prepared with your desired options.";
+		this.errorMessage = null;
+	}
+
+	@Override
+	public String createCommand(){
+		
+		String drinkName = this.drink.getName();
+		return this.behavior.createCommand(this.controllerID, this.machineID, this.orderID, drinkName, null);
+	}
+
+	@Override
+	public boolean checkID(String id) {
+		
+		return this.orderID.equals(id);
+	}
+}

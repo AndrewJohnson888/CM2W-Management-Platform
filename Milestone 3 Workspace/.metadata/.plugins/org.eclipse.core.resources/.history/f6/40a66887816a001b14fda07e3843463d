@@ -1,0 +1,14 @@
+import java.util.HashMap;
+
+import org.json.simple.parser.JSONParser;
+
+public class SimpleCommand implements CommandBehavior {
+
+	@Override
+	public String createCommand(String controllerID, String machineID, String orderID, String drink, String type, HashMap<String, Integer> options) {
+		
+		JSONObject jcommand = new JSONObject();
+		
+		return null;
+	}
+}

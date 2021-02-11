@@ -1,0 +1,6 @@
+package Domain;
+
+public abstract class OrderFactory {
+
+	public abstract Order createOrder(String order, int appID);
+}

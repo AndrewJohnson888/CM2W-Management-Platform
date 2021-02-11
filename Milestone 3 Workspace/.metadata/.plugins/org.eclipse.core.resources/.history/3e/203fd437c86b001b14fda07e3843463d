@@ -1,0 +1,12 @@
+import java.util.HashMap;
+
+public class ProgrammableCommand implements CommandBehavior {
+
+	@Override
+	public String createCommand(String controllerID, String machineID, String orderID, String drink,
+			HashMap<String, Integer> options) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

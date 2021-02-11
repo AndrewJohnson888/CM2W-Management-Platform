@@ -1,0 +1,7 @@
+
+public abstract class Order {
+
+	protected CommandBehavior behavior;
+	
+	public abstract String createCommand();
+}

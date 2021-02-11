@@ -1,0 +1,12 @@
+
+public class ProgrammableOrder extends Order {
+	
+	private Coffee drink;
+
+	public SimpleOrder(Coffee coffee){
+		
+		this.behavior = new SimpleCommand();
+		this.drink = coffee;
+	}
+
+}

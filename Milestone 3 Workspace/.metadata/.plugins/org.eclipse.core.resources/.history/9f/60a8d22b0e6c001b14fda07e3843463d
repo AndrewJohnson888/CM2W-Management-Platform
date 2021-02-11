@@ -1,0 +1,9 @@
+
+public class App implements AppObserver {
+
+	@Override
+	public void updateApp(String response) {
+		// TODO Auto-generated method stub
+		
+	}
+}

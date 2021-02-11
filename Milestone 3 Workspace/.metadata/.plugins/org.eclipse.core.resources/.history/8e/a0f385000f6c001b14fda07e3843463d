@@ -1,0 +1,8 @@
+
+public class App implements AppObserver {
+
+	public void updateApp(String response) {
+		
+		System.out.println(response);
+	}
+}

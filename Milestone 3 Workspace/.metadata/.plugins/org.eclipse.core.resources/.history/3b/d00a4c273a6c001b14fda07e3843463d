@@ -1,0 +1,20 @@
+package Domain;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+
+public class BaseCoffee extends Coffee{
+
+	private ArrayList<String> recipe;
+	private String name;
+	
+	public BaseCoffee(String name, ArrayList<String> recipe){
+		
+		this.name = name;
+		this.recipe = recipe;
+	}
+
+	public HashMap<String, Integer> getCondiments() { return new HashMap<String, Integer>(); }
+	public ArrayList<String> getRecipe() { return this.recipe; }
+	public String getName() { return this.name; }
+}

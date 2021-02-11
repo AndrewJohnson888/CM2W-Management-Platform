@@ -1,0 +1,76 @@
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
+public class SimpleOrder extends Order {
+
+	private String orderID;
+	private Coffee drink;
+	private String controllerID;
+	private String machineID;
+	private int status;
+	private String statusMessage;
+	private String errorMessage;
+
+	public SimpleOrder(String orderID, Coffee coffee, String controllerID, String machineID){
+		
+		this.behavior = new SimpleCommand();
+		
+		this.orderID = orderID;
+		this.drink = coffee;
+		this.controllerID = controllerID;
+		this.machineID = machineID;
+		
+		this.status = 0;
+		this.statusMessage = "Your coffee has been prepared with your desired options.";
+		this.errorMessage = null;
+	}
+
+	@Override
+	public String createCommand(){
+		
+		String drinkName = this.drink.getName();
+		return this.behavior.createCommand(this.controllerID, this.machineID, this.orderID, drinkName, null);
+	}
+
+	@Override
+	public boolean checkID(String id) {
+		
+		return this.orderID.equals(id);
+	}
+
+	@Override
+	public String createResponse() {
+	
+		JSONObject jobject = new JSONObject();
+		
+		JSONObject jresponse = new JSONObject();
+		jresponse.put("orderID", Integer.parseInt(this.orderID));
+		jresponse.put("coffee_machine_id", Integer.parseInt(this.machineID));
+		jresponse.put("status", this.status);
+		jresponse.put("status-message", this.statusMessage);
+		if (this.errorMessage != null) jresponse.put("error-message", this.errorMessage);
+		
+		jobject.put(jresponse, "user-response");
+		
+		return jobject.toJSONString();
+	}
+
+	@Override
+	public void parseResponse(String jresponse) throws ParseException {
+
+		JSONObject jobject = (JSONObject) new JSONParser().parse(jresponse);
+		JSONObject jresp = (JSONObject) jobject.get("drinkresponse");
+		long status = (long) jresp.get("status");
+		this.status = (int) status;
+		
+		if (status != 0){
+			
+			String errordesc = (String) jresp.get("errordesc");
+			long errorcode = (long) jresp.get("errorcode");
+			
+			this.errorMessage = errordesc;
+			this.statusMessage = "Your coffee order has been cancelled.";
+		}
+	}
+}

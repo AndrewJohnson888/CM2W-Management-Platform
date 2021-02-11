@@ -1,0 +1,9 @@
+import java.util.ArrayList;
+import java.util.HashMap;
+
+public abstract class CommandBehavior {
+	
+	protected final static String CONTROLLER_ID_KEY = "controller_id";
+
+	public String createCommand(int controllerID, int machineID, int orderID, String drink, HashMap<String, Integer> options, ArrayList<String> recipe);
+}

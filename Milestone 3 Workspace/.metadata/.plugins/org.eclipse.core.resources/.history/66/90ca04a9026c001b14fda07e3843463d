@@ -1,0 +1,7 @@
+
+import org.json.simple.parser.ParseException;
+
+public abstract class OrderFactory {
+
+	public abstract Order createOrder(String order);
+}

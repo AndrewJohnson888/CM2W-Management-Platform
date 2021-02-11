@@ -1,0 +1,6 @@
+import org.json.simple.parser.JSONParser;
+
+public interface CommandBehavior {
+
+	public String createCommand();
+}

@@ -1,0 +1,62 @@
+import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
+
+public class SystemControl {
+	
+	private static final int FULFILL_ORDER_TIME = 1000; // milliseconds
+
+	private Timer timer;
+	private AppCommunicator appComm;
+	private ControllerCommunicator controllerComm;
+	private OrderFactory factory;
+	private ArrayList<Order> orders;
+	
+	public SystemControl(){
+		
+		this.orders = new ArrayList<Order>();
+		
+		this.appComm = AppCommunicator.getInstance();
+		this.controllerComm = ControllerCommunicator.getInstance();
+		this.factory = new ConcreteOrderFactory();
+		
+		this.timer = new Timer();
+		this.timer.schedule(new TimerTask() {
+			
+			@Override
+			public void run(){
+				
+				handleOrder();
+				handleResponse();
+			}
+		}, 0, FULFILL_ORDER_TIME);
+	}
+	
+	private void handleOrder(){
+
+		String order = this.appComm.pollOrder();
+		
+		if (order == null) return;
+			
+		Order o = this.factory.createOrder(order);
+		this.orders.add(o);
+		this.controllerComm.addOrder(o);
+	}
+	
+	private void handleResponse(){
+		
+		String response = this.controllerComm.pollResponse();
+		
+		if (response == null) return;
+				
+		JSONModule jmodule = new JSONModule();
+		jmodule.parseResponse(response);
+		
+		Order order = null;
+		for (Order o : this.orders) if (o.checkID(jmodule.getOrderID())) order = o;
+		
+		order.parseResponse(response);
+		String appResponse = order.createResponse();
+		this.appComm.notifyAppObserver(appResponse, order.getAppID());
+	}
+}

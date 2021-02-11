@@ -1,0 +1,24 @@
+import java.util.HashMap;
+
+import org.json.simple.parser.ParseException;
+
+public class AutomatedOrder extends Order {
+
+	public AutomatedOrder(int orderID, Coffee coffee, int controllerID, int machineID){
+		
+		this.behavior = new AutomatedCommand();
+		
+		this.orderID = orderID;
+		this.drink = coffee;
+		this.controllerID = controllerID;
+		this.machineID = machineID;
+	}
+
+	@Override
+	public String createCommand() {
+		
+		HashMap<String, Integer> condiments = this.drink.getCondiments();
+		String drinkName = this.drink.getName();
+		return this.behavior.createCommand(this.controllerID, this.machineID, this.orderID, drinkName, condiments, null);
+	}
+}

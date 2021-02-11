@@ -1,0 +1,24 @@
+
+public class ProgrammableOrder extends Order {
+	
+	private Coffee drink;
+
+	public ProgrammableOrder(Coffee coffee){
+		
+		this.behavior = new ProgrammableCommand();
+		this.drink = coffee;
+	}
+
+	@Override
+	public String createCommand() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean checkID(String id) {
+		
+		return this.orderID.equals(id);
+	}
+
+}

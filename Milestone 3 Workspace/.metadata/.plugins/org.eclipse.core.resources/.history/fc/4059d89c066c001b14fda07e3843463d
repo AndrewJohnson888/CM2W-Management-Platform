@@ -1,0 +1,22 @@
+import java.util.ArrayList;
+import java.util.HashMap;
+import org.json.simple.JSONObject;
+
+public class SimpleCommand extends CommandBehavior {
+	
+	private static final String SIMPLE_KEY = "Simple";
+
+	@Override
+	public String createCommand(int controllerID, int machineID, int orderID, String drink, HashMap<String, Integer> options, ArrayList<String> recipe) {
+		
+		JSONModule jmodule = new JSONModule();
+		jmodule.put(CONTROLLER_ID_KEY, controllerID);
+		jmodule.put(COFFEE_MACHINE_ID_KEY, machineID);
+		jmodule.put(ORDER_ID_KEY, orderID);
+		jmodule.put(DRINK_NAME_KEY, drink);
+		jmodule.put(REQUEST_TYPE_KEY, SIMPLE_KEY);
+		jmodule.wrap(COMMAND_KEY);
+		
+		return jmodule.toString();
+	}
+}

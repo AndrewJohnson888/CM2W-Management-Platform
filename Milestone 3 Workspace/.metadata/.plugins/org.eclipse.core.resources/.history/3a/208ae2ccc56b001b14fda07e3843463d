@@ -1,0 +1,10 @@
+import org.json.simple.parser.ParseException;
+
+public abstract class Order {
+
+	protected CommandBehavior behavior;
+	public abstract String createCommand();
+	public abstract boolean checkID(String id);
+	public abstract String createResponse();
+	public abstract void parseResponse(String jresponse) throws ParseException;
+}

@@ -1,0 +1,11 @@
+
+import org.json.simple.parser.ParseException;
+
+public abstract class Factory {
+	
+	public Factory(){
+		
+	}
+
+	public abstract Coffee createOrder(String order) throws ParseException;
+}

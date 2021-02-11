@@ -1,0 +1,68 @@
+import java.util.HashMap;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
+public class JSONModule {
+	
+	private JSONParser jparser;
+	private HashMap<String, String> fields;
+	private HashMap<String, Integer> condiments;
+	
+	public JSONModule(){
+		
+		this.jparser = new JSONParser();
+		this.fields = new HashMap<String, String>();
+		this.condiments = new HashMap<String, Integer>();
+	}
+	
+	public void parseOrder(String order){
+		
+		JSONObject jorder = this.parseString(order);
+		jorder = this.getJSON(jorder, "order");
+		
+		JSONArray jcondiments = this.getArray(jorder, "condiments");
+		
+		if (jcondiments != null){
+			
+			JSONObject item;
+			String name;
+			int qty;
+			
+			for (int i = 0; i < jcondiments.size(); i++){
+				
+				item = (JSONObject) jcondiments.get(i);
+				name = this.getString(item, "name");
+				qty = this.getLongToInteger(item, "qty");
+				this.condiments.put(name, qty); 
+			}
+		}
+		
+		this.fields.put("orderID", this.getLongToString(jorder, "orderID"));			
+		this.fields.put("drink", this.getString(jorder, "drink"));
+		
+		JSONObject jaddress = (JSONObject) jorder.get("address");
+		this.fields.put("street", this.getString(jaddress, "street"));
+		this.fields.put("zip", this.getLongToString(jaddress, "ZIP"));
+	}
+	
+	private JSONObject parseString(String s){
+		
+		try { return (JSONObject) this.jparser.parse(s); } 
+		catch (ParseException e) { System.out.println("ERROR: Could not find field in JSON string: " + s); }
+		return null;
+	}
+	
+	private JSONObject getJSON(JSONObject jobject, String s){ return (JSONObject) jobject.get(s); }
+	private JSONArray getArray(JSONObject jobject, String s){ return (JSONArray) jobject.get(s); }
+	private String getString(JSONObject jobject, String s){ return (String) jobject.get(s); }
+	private int getLongToInteger(JSONObject jobject, String s){ return (int) ((long) jobject.get(s)); }
+	private String getLongToString(JSONObject jobject, String s){ return Long.toString((long) jobject.get(s)); }
+	
+	public HashMap<String, Integer> getCondiments() { return this.condiments; };
+	public String getDrink() { return this.fields.get("drink"); };
+	public String getStreet() { return this.fields.get("street"); };
+	public String getZip() { return this.fields.get("zip"); };
+	public String getOrderID() { return this.fields.get("orderID"); };
+}

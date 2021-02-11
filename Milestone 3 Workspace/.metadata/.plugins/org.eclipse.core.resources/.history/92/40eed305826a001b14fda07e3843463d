@@ -1,0 +1,16 @@
+import java.util.HashMap;
+import org.json.simple.JSONObject;
+
+public class SimpleCommand implements CommandBehavior {
+
+	@Override
+	public String createCommand(String controllerID, String machineID, String orderID, String drink, HashMap<String, Integer> options) {
+		
+		JSONObject jobject = new JSONObject();
+		
+		JSONObject jobject = new JSONObject();
+		
+		
+		return null;
+	}
+}

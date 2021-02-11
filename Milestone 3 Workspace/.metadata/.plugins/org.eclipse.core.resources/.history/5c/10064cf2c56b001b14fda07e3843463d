@@ -1,0 +1,51 @@
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
+public abstract class Order {
+
+	protected String orderID;
+	protected Coffee drink;
+	protected String controllerID;
+	protected String machineID;
+	protected int status;
+	protected String statusMessage;
+	protected String errorMessage;
+	
+	public String createResponse() {
+	
+		JSONObject jobject = new JSONObject();
+		
+		JSONObject jresponse = new JSONObject();
+		jresponse.put("orderID", Integer.parseInt(this.orderID));
+		jresponse.put("coffee_machine_id", Integer.parseInt(this.machineID));
+		jresponse.put("status", this.status);
+		jresponse.put("status-message", this.statusMessage);
+		if (this.errorMessage != null) jresponse.put("error-message", this.errorMessage);
+		
+		jobject.put("user-response", jresponse);
+		
+		return jobject.toJSONString();
+	}
+
+	public void parseResponse(String jresponse) throws ParseException {
+
+		JSONObject jobject = (JSONObject) new JSONParser().parse(jresponse);
+		JSONObject jresp = (JSONObject) jobject.get("drinkresponse");
+		long status = (long) jresp.get("status");
+		this.status = (int) status;
+		
+		if (status != 0){
+			
+			String errordesc = (String) jresp.get("errordesc");
+			long errorcode = (long) jresp.get("errorcode");
+			
+			this.errorMessage = errordesc;
+			this.statusMessage = "Your coffee order has been cancelled.";
+		}
+	}
+
+	protected CommandBehavior behavior;
+	public abstract String createCommand();
+	public abstract boolean checkID(String id);
+}

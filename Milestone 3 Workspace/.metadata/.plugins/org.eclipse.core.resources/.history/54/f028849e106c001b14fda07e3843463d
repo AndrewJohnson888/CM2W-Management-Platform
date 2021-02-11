@@ -1,0 +1,15 @@
+
+public class App implements AppObserver {
+	
+	private int appID;
+	
+	public App(AppSubject subject){
+		
+		this.appID = subject.registerAppObserver(this);
+	}
+
+	public void updateApp(String response) {
+		
+		System.out.println(response);
+	}
+}

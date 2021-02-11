@@ -1,0 +1,22 @@
+
+public class App implements AppObserver {
+	
+	private int appID;
+	private AppSubject subject;
+	
+	public App(AppSubject subject){
+		
+		this.subject = subject;
+		this.appID = subject.registerAppObserver(this);
+	}
+
+	public void updateApp(String response) {
+		
+		System.out.println(response);
+	}
+	
+	public void sendOrder(String order){
+		
+		this.subject.addOrder(order, this.appID);
+	}
+}

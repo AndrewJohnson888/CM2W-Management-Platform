@@ -1,0 +1,6 @@
+import java.util.HashMap;
+
+public abstract class Coffee {
+
+	public abstract HashMap<String, Integer> getCondiments();
+}

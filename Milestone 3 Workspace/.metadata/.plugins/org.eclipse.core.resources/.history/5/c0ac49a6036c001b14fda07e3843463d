@@ -1,0 +1,37 @@
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+
+public class AutomatedCommand implements CommandBehavior {
+
+	@Override
+	public String createCommand(String controllerID, String machineID, String orderID, String drink, HashMap<String, Integer> options, ArrayList<String> recipe) {
+		
+		JSONObject jobject = new JSONObject();
+		
+		JSONObject jcommand = new JSONObject();
+		jcommand.put("controller_id", controllerID);
+		jcommand.put("coffee_machine_id", machineID);
+		jcommand.put("orderID", orderID);
+		jcommand.put("DrinkName", drink);
+		jcommand.put("Requesttype", "Automated");
+		
+		JSONArray joptions = new JSONArray();
+		
+		for (String s : options.keySet()){
+			
+			JSONObject item = new JSONObject();
+			item.put("name", s);
+			item.put("qty", options.get(s));
+			joptions.add(item);
+		}
+		
+		jcommand.put("Options:", joptions);
+		jobject.put("command", jcommand);
+		
+		return jobject.toJSONString();
+	}
+
+}

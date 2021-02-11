@@ -1,0 +1,25 @@
+
+import java.util.LinkedList;
+import java.util.Queue;
+
+public class AppCommunicator {
+	
+	private static AppCommunicator uniqueInstance = new AppCommunicator();
+	
+	private Queue<String> orderQueue;
+
+	public AppCommunicator(){ this.orderQueue = new LinkedList<String>(); }
+	
+	public void addResponse(Order order){
+		
+		String jresponse = order.createResponse();
+	}
+	
+	public static AppCommunicator getInstance(){
+		
+		return AppCommunicator.uniqueInstance;
+	}
+	
+	public void addOrder(String order){ this.orderQueue.add(order); }
+	public String pollOrder(){ return this.orderQueue.poll(); }
+}

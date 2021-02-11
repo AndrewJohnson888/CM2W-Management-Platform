@@ -1,9 +1,0 @@
-import org.json.simple.JSONObject;
-import org.json.simple.parser.ParseException;
-
-public class AdvancedJParser extends JParserBehavior{
-
-	public AdvancedJParser(){
-		
-	}
-}

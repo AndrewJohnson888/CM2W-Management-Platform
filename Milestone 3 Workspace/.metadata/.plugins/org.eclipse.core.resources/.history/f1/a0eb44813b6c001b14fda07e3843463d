@@ -1,0 +1,12 @@
+package Domain;
+
+/**
+ * 
+ * @author johnsoa8
+ * Description: Interface for an OrderFactory, which 
+ *
+ */
+public abstract class OrderFactory {
+
+	public abstract Order createOrder(String order, int appID);
+}

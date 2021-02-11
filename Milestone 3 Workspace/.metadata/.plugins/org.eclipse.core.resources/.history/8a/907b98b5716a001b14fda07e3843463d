@@ -1,0 +1,15 @@
+
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
+public abstract class Factory {
+	
+	protected JSONParser jparser;
+	
+	public Factory(){
+		
+		this.jparser = new JSONParser();
+	}
+
+	public abstract Coffee createCoffee(String order) throws ParseException;
+}

@@ -1,0 +1,22 @@
+
+public enum MachineType {
+
+	SIMPLE,
+	AUTOMATED,
+	PROGRAMMABLE;
+	
+	public MachineType stringToMachineType(String machineType){
+			
+		switch(machineType){
+		
+			case "Simple":
+				return MachineType.SIMPLE;
+			case "Automated":
+				return MachineType.AUTOMATED;
+			case "Programmable":
+				return MachineType.PROGRAMMABLE;
+		}
+		
+		return null;
+	}
+}

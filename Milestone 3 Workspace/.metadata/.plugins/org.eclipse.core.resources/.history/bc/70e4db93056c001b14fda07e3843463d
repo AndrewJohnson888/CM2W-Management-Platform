@@ -1,0 +1,30 @@
+import java.util.ArrayList;
+import java.util.HashMap;
+import org.json.simple.JSONObject;
+
+public class SimpleCommand implements CommandBehavior {
+
+	@Override
+	public String createCommand(int controllerID, int machineID, int orderID, String drink, HashMap<String, Integer> options, ArrayList<String> recipe) {
+		
+		JSONModule jmodule = new JSONModule();
+		jmodule.put("controller_id", controllerID);
+		jmodule.put("coffee_machine_id", machineID);
+		jmodule.put("orderID", orderID);
+		jmodule.put("DrinkName", drink);
+		jmodule.put("Requesttype", "Simple");
+		
+		JSONObject jobject = new JSONObject();
+		
+		JSONObject jcommand = new JSONObject();
+		jcommand.put("controller_id", controllerID);
+		jcommand.put("coffee_machine_id", machineID);
+		jcommand.put("orderID", orderID);
+		jcommand.put("DrinkName", drink);
+		jcommand.put("Requesttype", "Simple");
+		
+		jobject.put("command", jcommand);
+		
+		return jobject.toJSONString();
+	}
+}

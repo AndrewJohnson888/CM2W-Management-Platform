@@ -1,0 +1,5 @@
+
+public class ControllerObserver {
+
+	public void updateController(String command);
+}

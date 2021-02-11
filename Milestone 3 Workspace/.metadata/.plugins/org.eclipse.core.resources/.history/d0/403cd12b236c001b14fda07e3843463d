@@ -1,0 +1,156 @@
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Scanner;
+import java.util.Timer;
+import java.util.TimerTask;
+
+public class InteractiveDemo {
+	
+	static Controller controller1 = new Controller(ControllerCommunicator.getInstance());
+	static Controller controller2 = new Controller(ControllerCommunicator.getInstance());
+
+	public static void main(String[] args){
+		
+		Scanner scanner = new Scanner(System.in);
+		
+		SystemControl sc = new SystemControl();
+		
+		ArrayList<App> apps = new ArrayList<App>();
+		HashMap<String, Integer> condiments = new HashMap<String, Integer>();
+		
+		int orderID = 1;
+		int appID = 1;
+		
+		String zip; 
+		String drink;
+		String name; 
+		int quantity;
+		
+		while(true){
+			
+			condiments.clear();
+		
+			System.out.println();
+			System.out.println("Enter a command");
+			System.out.println("Options: make app, order, shutdown");
+			String command = scanner.nextLine();
+			
+			if (command.equals("shutdown")) {
+				
+				System.out.println("Shutting Down...");
+				sc.shutdown();
+				break;
+			}
+			
+			else if (command.equals("make app")){
+
+				System.out.println("A new app has been made with id: " + appID);
+				App app = new App(AppCommunicator.getInstance());
+				apps.add(app);
+				appID ++;
+			}
+			
+			else if (command.equals("order")){
+				
+				System.out.println("Enter street: ");
+				String street = scanner.nextLine();
+				
+				System.out.println("Enter zip: ");
+				zip = scanner.nextLine();
+				
+				System.out.println("Enter drink: ");
+				drink = scanner.nextLine();
+				
+				while(true){
+				
+					System.out.println("Add condiment? (Y/N)");
+					String resp = scanner.nextLine();
+					
+					if (! resp.equals("Y")) break;
+					
+					System.out.println("Enter condiment name: ");
+					name = scanner.nextLine();
+
+					System.out.println("Enter condiment quantity: ");
+					quantity = Integer.parseInt(scanner.nextLine());
+					
+					condiments.put(name, quantity);
+				}
+				
+				System.out.println("Send to which app: ");
+				int id = Integer.parseInt(scanner.nextLine());
+				
+				JSONModule addressModule = new JSONModule();
+				addressModule.put("street", street);
+				addressModule.put("ZIP", zip);
+				
+				JSONModule condimentsModule = new JSONModule();
+				
+				if (condiments.size() > 0){
+				
+					JSONModule itemModule;
+					for (String key : condiments.keySet()){
+						
+						itemModule = new JSONModule();
+						itemModule.put("name", key);
+						itemModule.put("qty", condiments.get(key));
+						condimentsModule.add(itemModule.toObject());
+					}
+				}
+				
+				JSONModule innerModule = new JSONModule();
+				innerModule.put("orderID", orderID);
+				innerModule.put("drink", drink);
+				innerModule.put("address", addressModule.toObject());
+				if (condiments.size() > 0) innerModule.put("condiments", condimentsModule.toObject());
+				
+				JSONModule outerModule = new JSONModule();
+				outerModule.put("order", innerModule.toObject());
+				
+				apps.get(id).sendOrder(outerModule.toString());
+				
+				System.out.println("App " + id + " has send order " + orderID);
+				
+				if (zip.equals("47803")){
+				
+					Timer controllerTimer = new Timer();
+					controllerTimer.schedule(new TimerTask() {
+						
+						public void run(){
+							
+							requestController1(orderID, controllerTimer);
+						}
+					}, 5000, 0);
+				}
+				
+				else {
+					
+					Timer controllerTimer = new Timer();
+					controllerTimer.schedule(new TimerTask() {
+						
+						public void run(){
+							
+							controller2.sendResponse("{\"drinkresponse\": {\"orderID\": " + orderID + ",\"status\": 0}}");
+							controllerTimer.cancel();
+						}
+					}, 5000, 0);
+				}
+				
+				orderID ++;
+			}
+			
+			else {
+				
+				System.out.println("Command not recognized");
+			}
+		}
+		
+		System.out.println("Program Terminated");
+	}
+	
+	public static void requestController1(int orderID, Timer controllerTimer){
+		
+		controller1.sendResponse("{\"drinkresponse\": {\"orderID\": " + orderID + ",\"status\": 0}}");
+		controllerTimer.cancel();
+	}
+}

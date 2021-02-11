@@ -1,0 +1,6 @@
+package Presentation;
+
+public interface ControllerObserver {
+
+	public void updateController(String command);
+}

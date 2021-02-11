@@ -1,0 +1,124 @@
+import static org.junit.Assert.*;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+import org.junit.Test;
+
+public class Testing {
+	
+	// Simple Test 
+	public static final String order1 = "{\"order\": { \"orderID\": 2,\"address\": {\"street\": \"200 N Main\",\"ZIP\": 47803},\"drink\": \"Expresso\"}}";
+	public static final String command1 = "{\"command\": {\"controller_id\": 1,\"coffee_machine_id\": 2,\"orderID\": 2,\"DrinkName\": \"Expresso\",\"Requesttype\": \"Simple\"}}";
+	public static final String drinkResponse1 = "{\"drinkresponse\": {\"orderID\": 2,\"status\": 1,\"errordesc\": \"Out of milk, drink cancelled.\",\"errorcode\": 2}}";
+	public static final String userResponse1 = "{\"user-response\": {\"orderID\": 2,\"coffee_machine_id\": 2,\"status\": 1,\"status-message\": \"Your coffee order has been cancelled.\",\"error-message\": \"Out of milk, drink cancelled.\"}}";
+	
+	// Automated Test
+	public static final String order2 = "{\"order\": { \"orderID\": 1,\"address\": {\"street\": \"200 N Main\",\"ZIP\": 47803},\"drink\": \"Americano\",\"condiments\": [{\"name\": \"Sugar\", \"qty\": 1},{\"name\": \"Cream\", \"qty\": 2}]}}";	
+	public static final String command2 = "{\"command\": {\"controller_id\": 1,\"coffee_machine_id\": 1,\"orderID\": 1,\"DrinkName\": \"Americano\",\"Requesttype\": \"Automated\",\"Options:\": [{\"Name\": \"Cream\", \"qty\": 2},{\"Name\": \"Sugar\", \"qty\": 1}]}}";
+	public static final String drinkResponse2 = "{\"drinkresponse\": {\"orderID\": 1,\"status\": 0}}";
+	public static final String userResponse2 = "{\"user-response\": {\"orderID\": 1,\"coffee_machine_id\": 1,\"status\": 0,\"status-message\": \"Your coffee has been prepared with your desired options.\"}}";
+	
+	// Programmable Test
+	public static final String order3 = "{\"order\": { \"orderID\": 3,\"address\": {\"street\": \"200 N Main\",\"ZIP\": 47803},\"drink\": \"Pumpkin Spice\",\"condiments\": [{\"name\": \"Sugar\", \"qty\": 2}]}}";
+	public static final String command3 = "{\"command\": {\"controller_id\": 1,\"coffee_machine_id\": 3,\"orderID\": 1,\"DrinkName\": \"Pumpkin Spice\",\"Requesttype\": \"Programmable\",\"Options:\": [{\"Name\": \"sugar\", \"qty\": 2} ],\"Recipe\": [{\"commandstep\": \"add\", \"object\": \"coffee\"},{\"commandstep\": \"add\", \"object\": \"pumpkin spice\"},{\"commandstep\": \"mix\"},{\"commandstep\": \"top\",  \"object\": \"nutmeg\"}]}";
+	public static final String drinkResponse3 = "{\"drinkresponse\": {\"orderID\": 3,\"status\": 1,\"errordesc\": \"Machine jammed.\",\"errorcode\": 26}}";
+	public static final String userResponse3 = "{\"user-response\": {\"orderID\": 3,\"coffee_machine_id\": 3,\"status\": 1,\"status-message\": \"Your coffee order has been cancelled.\",\"error-message\": \"Machine jammed.\"}}";
+	
+	private void compareCommandJSON(String output, String expected, String type) throws ParseException{
+		
+		JSONParser jparser = new JSONParser();
+		
+		System.out.println(type);
+		
+		JSONObject jobject1 = (JSONObject) jparser.parse(output);
+		JSONObject jobject2 = (JSONObject) jparser.parse(expected);
+		
+		assertEquals(true, jobject1.containsKey("command"));
+		assertEquals(true, jobject2.containsKey("command"));
+		
+		jobject1 = (JSONObject) jobject1.get("command");
+		jobject2 = (JSONObject) jobject2.get("command");
+		
+		assertEquals(jobject2.get("controller_id"), jobject1.get("controller_id"));
+		assertEquals(jobject2.get("coffee_machine_id"), jobject1.get("coffee_machine_id"));
+		assertEquals(jobject2.get("orderID"), jobject1.get("orderID"));
+		assertEquals(jobject2.get("DrinkName"), jobject1.get("DrinkName"));
+		assertEquals(jobject2.get("Requesttype"), jobject1.get("Requesttype"));
+		
+		if (type.equals("Automated") || type.equals("Programmable")){
+			
+			JSONArray jarray1 = (JSONArray) jobject1.get("Options:");
+			JSONArray jarray2 = (JSONArray) jobject2.get("Options:");
+		
+			for (int i = 0; i < jarray1.size(); i++){
+	
+				JSONObject jitem1 = (JSONObject) jarray1.get(i);
+				JSONObject jitem2 = (JSONObject) jarray2.get(i);
+				
+				assertEquals(jitem2.get("commandstep"), jitem1.get("commandstep"));
+				assertEquals(jitem2.get("object"), jitem1.get("object"));
+			}
+		}
+		
+		if (type.equals("Programmable")){
+			
+			JSONArray jarray1 = (JSONArray) jobject1.get("Recipe");
+			JSONArray jarray2 = (JSONArray) jobject2.get("Recipe");
+			
+			for (int i = 0; i < jarray1.size(); i++){
+				
+				JSONObject jitem1 = (JSONObject) jarray1.get(i);
+				JSONObject jitem2 = (JSONObject) jarray2.get(i);
+				
+				assertEquals(jitem2.get("Name"), jitem1.get("Name"));
+				assertEquals(jitem2.get("qty"), jitem1.get("qty"));
+			}
+		}
+	}
+	
+	private void compareResponseJSON(String output, String expected) throws ParseException {
+		
+		JSONParser jparser = new JSONParser();
+		
+		JSONObject jobject1 = (JSONObject) jparser.parse(output);
+		JSONObject jobject2 = (JSONObject) jparser.parse(expected);
+		
+		assertEquals(true, jobject1.containsKey("user-response"));
+		assertEquals(true, jobject2.containsKey("user-response"));
+		
+		jobject1 = (JSONObject) jobject1.get("user-response");
+		jobject2 = (JSONObject) jobject2.get("user-response");
+		
+		assertEquals(jobject2.get("orderID"), jobject1.get("orderID"));
+		assertEquals(jobject2.get("coffee_machine_id"), jobject1.get("coffee_machine_id"));
+		assertEquals(jobject2.get("status"), jobject1.get("status"));
+		assertEquals(jobject2.get("status-message"), jobject1.get("status-message"));
+		assertEquals(jobject2.get("error-message"), jobject1.get("error-message"));
+	}
+
+	@Test
+	public void test() throws InterruptedException, ParseException {
+		
+		SystemControl sc = new SystemControl();
+		AppCommunicator ac = AppCommunicator.getInstance();
+		ControllerCommunicator cc = ControllerCommunicator.getInstance();
+		
+		App app1 = new App(ac);
+		Controller controller1 = new Controller(cc);
+		
+//		app1.sendOrder(order1);
+//		Thread.sleep(2000); // wait for order to be fulfilled
+//		compareCommandJSON(controller1.getLastCommand(), command1, "Simple");
+//		
+//		app1.sendOrder(order2);
+//		Thread.sleep(2000); // wait for order to be fulfilled
+//		compareCommandJSON(controller1.getLastCommand(), command2, "Automated");
+		
+		app1.sendOrder(order3);
+		Thread.sleep(2000); // wait for order to be fulfilled
+		compareCommandJSON(controller1.getLastCommand(), command3, "Programmable");
+		
+		sc.shutdown();
+	}
+}

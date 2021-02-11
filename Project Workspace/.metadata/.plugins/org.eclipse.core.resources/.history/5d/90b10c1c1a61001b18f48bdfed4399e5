@@ -1,9 +1,0 @@
-
-public class SimpleJConstructor implements JConstructorBehavior{
-
-	@Override
-	public String jconstruct(Order o) {
-	
-		return null;
-	}
-}

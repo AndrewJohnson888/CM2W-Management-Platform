@@ -1,0 +1,24 @@
+
+public class SimpleOrder extends Order {
+
+	private String orderID;
+	private Coffee drink;
+	private String controllerID;
+	private String machineID;
+
+	public SimpleOrder(String orderID, Coffee coffee, String controllerID, String machineID){
+		
+		this.behavior = new SimpleCommand();
+		
+		this.orderID = orderID;
+		this.drink = coffee;
+		this.controllerID = controllerID;
+		this.machineID = machineID;
+	}
+
+	@Override
+	public String createCommand(){
+		
+		return this.behavior.createCommand();
+	}
+}

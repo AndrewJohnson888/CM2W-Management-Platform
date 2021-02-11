@@ -1,0 +1,12 @@
+
+public class AutomatedOrder extends Order {
+	
+	private Coffee drink;
+
+	public AutomatedOrder(Coffee coffee){
+		
+		this.behavior = new AutomatedCommand();
+		this.drink = coffee;
+	}
+
+}

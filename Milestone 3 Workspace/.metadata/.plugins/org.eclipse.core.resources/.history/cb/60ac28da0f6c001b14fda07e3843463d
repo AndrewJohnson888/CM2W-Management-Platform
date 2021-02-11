@@ -1,0 +1,47 @@
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.Queue;
+
+public class ControllerCommunicator implements ControllerSubject{
+	
+	private static ControllerCommunicator uniqueInstance = new ControllerCommunicator();
+	private static int NEXT_CONTROLLER_ID = 0;
+	
+	private Queue<String> responseQueue;
+	private HashMap<Integer, ControllerObserver> controllers;
+
+	private ControllerCommunicator(){
+		
+		this.responseQueue = new LinkedList<String>();
+		this.controllers = new HashMap<Integer, ControllerObserver>();
+	}
+	
+	public static ControllerCommunicator getInstance(){ return ControllerCommunicator.uniqueInstance; }
+	
+	public void addResponse(String response){
+		
+		this.responseQueue.add(response);
+	}
+	
+	public String pollResponse(){
+		
+		return this.responseQueue.poll();
+	}
+	
+	public void notifyControllerObserver(String command){
+		
+	}
+
+	public int registerControllerObserver(ControllerObserver controller) {
+
+		this.controllers.put(NEXT_CONTROLLER_ID, controller);
+		NEXT_CONTROLLER_ID ++;
+		
+		return NEXT_CONTROLLER_ID - 1;
+	}
+
+	public void removeControllerObserver(ControllerObserver controller) {
+		
+		
+	}
+}

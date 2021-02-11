@@ -1,0 +1,39 @@
+import java.util.HashMap;
+
+public class AutomatedOrder extends Order {
+
+	private String orderID;
+	private Coffee drink;
+	private String controllerID;
+	private String machineID;
+
+	public AutomatedOrder(String orderID, Coffee coffee, String controllerID, String machineID){
+		
+		this.behavior = new AutomatedCommand();
+		
+		this.orderID = orderID;
+		this.drink = coffee;
+		this.controllerID = controllerID;
+		this.machineID = machineID;
+	}
+
+	@Override
+	public String createCommand() {
+		
+		HashMap<String, Integer> condiments = this.drink.getCondiments();
+		String drinkName = this.drink.getName();
+		return this.behavior.createCommand(this.controllerID, this.machineID, this.orderID, drinkName, condiments);
+	}
+
+	@Override
+	public boolean checkID(String id) {
+		
+		return this.orderID.equals(id);
+	}
+
+	@Override
+	public String createResponse() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+}

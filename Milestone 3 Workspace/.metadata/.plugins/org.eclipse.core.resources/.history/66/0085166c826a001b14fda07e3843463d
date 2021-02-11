@@ -1,0 +1,79 @@
+import java.util.ArrayList;
+import java.util.HashMap;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
+public class ConcreteOrderFactory extends OrderFactory{
+	
+	private JSONParser jparser;
+	private ControllerLocator locator;
+	
+	public ConcreteOrderFactory(){
+		
+		this.jparser = new JSONParser();
+		this.locator = new ControllerLocator();
+	}
+
+	@Override
+	public Order createOrder(String order) throws ParseException {
+
+		JSONObject jorder = (JSONObject) this.jparser.parse(order);
+		jorder = (JSONObject) jorder.get("order");
+		
+		JSONArray jcondiments = (JSONArray) jorder.get("condiments");
+		HashMap<String, Integer> condiments = new HashMap<String, Integer>();
+		
+		if (jcondiments != null){
+			
+			for (int i = 0; i < jcondiments.size(); i++){
+				
+				JSONObject item = (JSONObject) jcondiments.get(i);
+				condiments.put((String) item.get("name"), (int) item.get("qty")); 
+			}
+		}
+		
+		long orderID = (long) jorder.get("orderID");
+		String orderID = Long.toString(orderID);
+		String drink = (String) jorder.get("drink");
+		String street = (String) jorder.get("street");
+		long ZIP = (long) jorder.get("ZIP");
+		String zip = Long.toString(ZIP);
+		
+		this.locator.locateMachine(jcondiments == null, drink, street, zip);
+		ArrayList<String> recipe = this.locator.getRecipe();
+		String machineID = this.locator.getMachine();
+		String controllerID = this.locator.getController();
+		MachineType type = this.locator.getType();
+		
+		Coffee coffee = createCoffee(drink, condiments, recipe);
+		
+		switch(type){
+		
+			case SIMPLE:
+				return new SimpleOrder(orderID, coffee, controllerID, machineID);
+			case AUTOMATED: 
+				return new AutomatedOrder(coffee);
+			case PROGRAMMABLE: 
+				return new ProgrammableOrder(coffee);
+		}
+		
+		return null;
+	}
+	
+	private Coffee createCoffee(String drink, HashMap<String, Integer> condiments, ArrayList<String> recipe){
+		
+		Coffee coffee = new BaseCoffee(drink, recipe);
+		
+		for (String condiment : condiments.keySet()){
+			
+			for (int i = 0; i < condiments.get(condiment); i++){
+			
+				coffee = new CondimentDecorator(condiment, coffee);
+			}
+		}
+		
+		return coffee;
+	}
+}

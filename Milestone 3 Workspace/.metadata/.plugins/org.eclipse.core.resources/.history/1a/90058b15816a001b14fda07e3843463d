@@ -1,0 +1,13 @@
+import java.util.ArrayList;
+
+public class BaseCoffee extends Coffee{
+
+	private ArrayList<String> recipe;
+	private String name;
+	
+	public BaseCoffee(String name, ArrayList<String> recipe){
+		
+		this.name = name;
+		this.recipe = recipe;
+	}
+}
